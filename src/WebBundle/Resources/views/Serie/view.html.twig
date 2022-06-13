@@ -1,0 +1,246 @@
+{% extends "WebBundle::layout.html.twig" %}
+{% set subtitle =  poster.title %}
+{% set og_description =  poster.description %}
+{% set og_type =  "video.tv_show" %}
+{% set og_image =  asset(poster.poster.link)|imagine_filter('poster_thumb') %}
+{% set keywords =  poster.tags %}
+{% block title %}{{poster.title}}{% endblock %}
+{% block body %}
+	<div class="row content-section">
+		<div class="col-md-12" >
+			<div class="movie-header-bg" style=" background-image: url('{{asset((poster.cover == null)? poster.poster.link : poster.cover.link)}}');">
+				<div class="movie-header">
+					<div class="movie-title">{{poster.title}}</div>
+					<div class="movie-infos">{{poster.year}} • {{poster.classification}} • {{poster.duration}} {% for genre in poster.genres %} • <a href="{{path("wep_serie_index",{genre: genre.title,order:"views"})}}">{{genre.title}}</a>{% endfor %}</div>
+					<div class="header-buttons">
+						{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+							<button class="btn-fav" alt="{{poster.id}}" >{% if favorited %}<i class="fa fa-heart"></i>{% else %}<i class="far fa-heart"></i>{% endif %}</button>
+						{% else %}
+							<button  class="open-login"> <i class="far fa-heart"></i></button>
+						{% endif %}
+						<button id="share-btn">
+						<i  class="fa fa-share "></i>SHARE
+						<div class="share-buttons">
+							<a href="mailto:?Subject={{poster.title}}&amp;Body={{poster.description}} {{ app.request.schemeAndHttpHost ~ app.request.baseUrl ~ "/share/" ~ poster.id ~ ".html"}}">
+								<i class="fas fa-envelope"></i>
+							</a>
+							<a href="http://www.facebook.com/sharer.php?u={{ app.request.schemeAndHttpHost ~ app.request.baseUrl ~ "/share/" ~ poster.id ~ ".html"}}" target="_blank">
+								<i class="fab fa-facebook-f"></i>
+							</a>
+							<a href="http://www.linkedin.com/shareArticle?mini=true&amp;url={{ app.request.schemeAndHttpHost ~ app.request.baseUrl ~ "/share/" ~ poster.id ~ ".html"}}" target="_blank">
+								<i class="fab fa-linkedin-in"></i>
+							</a>
+							<a href="https://twitter.com/share?url={{ app.request.schemeAndHttpHost ~ app.request.baseUrl ~ "/share/" ~ poster.id ~ ".html"}}&amp;text={{poster.title}}" target="_blank">
+								<i class="fab fa-twitter"></i>
+							</a>
+						</div>
+						</button>
+					</div>
+					<div class="header-ratings">
+						{{poster.rating}}/5
+						{% set rate = poster.rating %}
+						{% for i in 1..5 %}
+							{% if rate >= 1 %}
+								<i class="fas fa-star checked"></i>
+							{% endif %}
+							{% if rate >= 0.25 and  rate < 0.75 %}
+								<i class="fas fa-star-half-alt checked"></i>
+							{% endif %}
+							{% if rate >= 0.75 and  rate < 1 %}
+								<i class="fas fa-star checked"></i>
+							{% endif %}
+							{% if rate < 0.25 %}
+								<i class="far fa-star checked"></i>
+							{% endif %}
+							{% set rate  =  rate - 1 %}
+						{% endfor %}
+						• {{poster.imdb}} / 10 <span class="imdb">IMDb</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-12" >
+			{% if poster.trailer != null %}
+				<button id="trailer-btn" class="btn play-btn"><span class="fa fa-bullhorn"></span> Watch Trailer</button>
+			{% endif %}
+
+			<a class="btn play-btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<span class="fa fa-star"></span> Rate Serie
+			</a>
+			<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+				<div class="comment-item  review-write">
+					<div class='alert alert-success success-review' role='alert'>
+						<i class='fas fa-comment-alt'></i> Your Review has been added successfully!
+					</div>
+					<div class='alert alert-danger error-review' role='alert'>
+						<i class='fas fa-comment-alt'></i> Your Review could not be submitted
+					</div>
+					<div class="rate" id="rate-input" alt="{{poster.id}}">
+						<input type="radio" id="star5" name="rate" value="5" />
+						<label for="star5" title="text">5 stars</label>
+						<input type="radio" id="star4" name="rate" value="4" />
+						<label for="star4" title="text">4 stars</label>
+						<input type="radio" id="star3" name="rate" value="3" />
+						<label for="star3" title="text">3 stars</label>
+						<input type="radio" id="star2" name="rate" value="2" />
+						<label for="star2" title="text">2 stars</label>
+						<input type="radio" checked="true" id="star1" name="rate" value="1" />
+						<label for="star1" title="text">1 star</label>
+					</div>
+					<textarea  class="input-review" placeholder="Write you review here"></textarea>
+					{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+						<button alt="{{poster.id}}"  type="poster" class="btn btn-primary  submit-review btn-block"><i class="fas fa-paper-plane"></i>  Submite Review</button>
+						<button alt="{{poster.id}}" class="btn btn-primary  loading-review btn-block"><i class="fas fa-circle-notch fa-spin"></i>  Review Interting</button>
+					{% else %}
+						<button  class="btn btn-primary btn-block open-login"> <i class="fas fa-check"></i> Login to leave a review </button>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+		{% if poster.trailer != null %}
+			<div class="trailer-video" alt="{{poster.trailer.youtubeid}}"></div>
+		{% endif %}
+	{% if settings.seriebannertype == "image"%}
+		<div class="col-sm-12 col-md-12 ads-element">		
+			<img src="{{settings.homebanner}}">
+		</div>
+	{% elseif settings.seriebannertype =="code" %}
+		<div class="col-sm-12 col-md-12">		
+			{{settings.homebanner}}
+		</div>
+	{% endif %}
+		<div class="col-md-12 padding-top-20" >
+			<div class="movie-section-title">Overview</div>
+		</div>
+		<div class="col-md-12" >
+			<p>
+				{{poster.description}}
+			</p>
+		</div>
+		{% if poster.seasons|length != 0 %}
+			<div class="col-md-12 padding-top-20" >
+				<div class="movie-section-title season-btn-selected">{{poster.seasons[0].title | upper}}</div>
+				<div class="btn-group float-right season-dropdown">
+					<button type="button" class="btn btn-secondary dropdown-toggle season-btn-selected" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					{{poster.seasons[0].title | upper}}
+					</button>
+					<div class="dropdown-menu dropdown-menu-right">
+						{% for season in poster.seasons %}
+							<button class="dropdown-item season-btn"  alt="{{season.id}}" type="button">{{season.title|upper}}</button>
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+			<div class="flix-carousel" >
+				<button  class="prev_btn"><i class="fa fa-chevron-left"></i></button>
+				<button  class="next_btn"><i class="fa fa-chevron-right"></i></button>
+				<div class="flix-scroll-x serie-episodes">
+					{{render(controller("WebBundle:Serie:episodes",{ id : poster.seasons[0].id }))}}
+				</div>
+				<div class="serie-episodes-loading">
+					<i class="fas fa-circle-notch fa-spin"></i>
+				</div>
+			</div>
+		{% endif %}
+		{% if poster.roles|length != 0 %}
+			<div class="col-md-12 padding-top-20" >
+				<div class="movie-section-title">Cast</div>
+			</div>
+			<div class="flix-carousel" >
+				<button  class="prev_btn"><i class="fa fa-chevron-left"></i></button>
+				<button  class="next_btn"><i class="fa fa-chevron-right"></i></button>
+				<div class="flix-scroll-x">
+					{% for cast in poster.roles %}
+						{{ include('WebBundle:Actor:cast.html.twig',{cast:cast}) }}
+					{% endfor %}
+				</div>
+			</div>
+		{% endif %}
+		{% if related_posters|length != 0 %}
+			<div class="col-md-12 padding-top-20" >
+				<div class="movie-section-title">For You</div>
+			</div>
+			<div class="flix-carousel" >
+				<button  class="prev_btn"><i class="fa fa-chevron-left"></i></button>
+				<button  class="next_btn"><i class="fa fa-chevron-right"></i></button>
+				<div class="flix-scroll-x">
+					{% for related_poster in related_posters %}
+						{% if related_poster.type == "movie" %}
+							{{ include('WebBundle:Movie:movie.html.twig',{poster:related_poster}) }}
+						{% else %}
+							{{ include('WebBundle:Serie:serie.html.twig',{poster:related_poster}) }}
+						{% endif %}
+					{% endfor %}
+				</div>
+			</div>
+		{% endif %}
+		{% if poster.comment %}
+			<div class="col-md-6 padding-top-20">
+				<div class="movie-section-title"><i class="fa fa-comment"></i> {{comments|length}} Comments</div>
+				<div class="comment-section comment-list">
+					{% for comment in comments %}
+						<div class="comment-item">
+							<a title="View profile" href="#" class="avatar-thumb"><img  src="{{(comment.user.media.type == "link")? comment.user.media.url : asset(comment.user.media.link)|imagine_filter('actor_thumb_mini_web')}}"></a>
+							<div class="comment-text">
+								<a>{{comment.user.name}}</a><span class="float-right"><i class="fa fa-clock-o"></i> {{comment.created|ago}} </span>
+								<p> {{(comment.contentclear)}}</p>
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+				<div class='alert alert-success success-comment' role='alert'>
+					<i class='fas fa-comment-alt'></i> Your comment has been added successfully!
+				</div>
+				<div class='alert alert-danger error-comment' role='alert'>
+					<i class='fas fa-comment-alt'></i> Your comment could not be submitted
+				</div>
+				{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+					<div class="comment-item comment-write">
+						<a title="View profile" href="#" class="avatar-thumb"><img  src="{{(app.user.media.type == "link" )? app.user.media.url : asset(app.user.media.link)|imagine_filter('actor_thumb_mini_web')}}"></a>
+						<div class="comment-text">
+							<a>{{app.user.name}}</a>
+							<textarea  class="input-comment" alt="poster" placeholder="Write you comment here"></textarea>
+							<button alt="{{poster.id}}" class="btn btn-primary float-right submit-comment"><i class="fas fa-paper-plane"></i> Submite Comment</button>
+							<button alt="{{poster.id}}" class="btn btn-primary float-right loading-comment"><i class="fas fa-circle-notch fa-spin"></i> Comment Interting</button>
+						</div>
+					</div>
+				{% else %}
+					<button class="btn comment-btn-item open-login">
+					<i class="fa fa-check"></i> Login to leave a comment
+					</button>
+				{% endif %}
+			</div>
+		{% endif %}
+		<div class="col-md-6 padding-top-20">
+			<div class="movie-section-title"><i class="fa fa-star"></i> {{poster.ratings|length}} Reviews</div>
+			<div class="comment-section ">
+				{% for rating in poster.ratings %}
+					<div class="review">
+						<div class="review-properties">
+							Reviewed by
+							<span class="review-author">{{rating.user.name}}</span>
+							<span class="fa fa-star checked"></span>
+							<span class="review-rating">{{rating.value}} / 5</span>
+							<span class="float-right"><i class="fa fa-clock-o"></i> {{rating.created|ago}} </span>
+						</div>
+						<article><p>{{rating.review}}</p></article>
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+	<div class="background-close  serie-dialog">
+		<div class="login-box ">
+			<div class="notif-head">
+				<span class="notif-close"><i class="fa fa-times" aria-hidden="true"></i></span>
+				<span class="notif-title"><i class="fa fa-fw fa-lock"></i>  </span>
+			</div>
+			<div class="notif-body">
+				<div class="carda__body">
+					<div class="box-content">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

@@ -1,0 +1,116 @@
+{% extends "AppBundle::layout.html.twig" %}
+{% block body%}
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="card card-stats card card-initial" >
+					<div class="card-content views-body  pull-right">
+						<a href="#" class="btn btn-tab-movie"><i class="material-icons">remove_red_eye</i> {{serie.viewscountnumber}} Views</a>
+						<a href="#" class="btn btn-tab-movie pull-right"><i class="material-icons">share</i> {{serie.sharesnumber}} Shares</a>
+						<a href="#" class="btn btn-tab-movie pull-right"><i class="material-icons">cloud_download</i> {{serie.downloadscountnumber}} Downloads</a>
+					</div>
+					<div class="card-header " data-background-color="green">
+						<i class="material-icons">tv</i>
+					</div>
+					<div class="card-content trailer-body">
+						<h4 class="title">Seasons : {{serie.title }} </b></h4>
+					</div>
+                    <div class="tab-moivie tab-series"><a href="{{path("app_serie_edit",{"id":serie.id})}}" class="btn btn-tab-movie"><i class="material-icons">edit</i> Edit</a><a href="{{path("app_serie_cast",{"id":serie.id})}}" class="btn btn-tab-movie"><i class="material-icons">recent_actors</i> Cast</a><a href="{{path("app_serie_trailer",{"id":serie.id})}}" class="btn btn-tab-movie"><i class="material-icons">movie_filter</i> Trailer</a><a href="{{path("app_serie_seasons",{"id":serie.id})}}" class="btn btn-tab-movie-active"><i class="material-icons">dynamic_feed</i> SEASONS</a><a href="{{path("app_serie_comments",{"id":serie.id})}}" class="btn btn-tab-movie"><i class="material-icons">comment</i> Comments</a><a href="{{path("app_serie_ratings",{"id":serie.id})}}" class="btn btn-tab-movie"><i class="material-icons">star_half</i> Ratings</a>
+                    </div>
+				</div>
+			</div>
+			<div class="col-md-12">
+				<div class="card">
+					<div class="card-header card-header-icon" data-background-color="rose">
+						<i class="material-icons">dynamic_feed</i>
+					</div>
+					<a  href="#" class="btn  btn-xs btn-success pull-right new-subtitle-source" id="new_season_btn"><i class="material-icons" style="font-size: 30px;">add_box</i> New Season</a>
+					<div class="card-content">
+						<h4 class="card-title">{{serie.title}} Seasons</h4>
+					</div>
+				</div>
+			</div>
+			{% if serie.seasons|length > 0 %}
+			<div class="col-md-12">
+				<form>
+
+				<select class="form-control pull-right" name="season" onchange="this.form.submit()">
+				{% for s in serie.seasons %}
+					<option value="{{s.id}}"  {% if app.request.get("season") == s.id %} selected {% endif %}>{{s.title}}</option>
+				{% endfor %}
+									  
+
+				</select>
+				</form>
+				<br>
+				<br>
+			</div>
+			 {% endif %}
+			<div class="col-md-12" id="new_season_dialog" style="display:none">
+				<div class="card">
+					{{form_start(season_form)}}
+					<div class="card-header card-header-icon" data-background-color="rose">
+						<i class="material-icons">add</i>
+					</div>
+					<div class="card-content">
+						<h4 class="card-title">Add new season</h4>
+						<br>
+						<div class="form-group label-floating is-empty">
+							<label class="control-label">Season title</label>
+							{{form_widget(season_form.title,{"attr":{"class":"form-control"}})}}
+							<span class="validate-input">{{form_errors(season_form.title)}}</span>
+						</div>
+						<span class="pull-right"><a href="#" id="new_season_btn_close" class="btn btn-fill btn-info"><i class="material-icons">arrow_back</i> Cancel</a>{{form_widget(season_form.save,{attr:{"class":"btn btn-fill btn-success"}})}}</span>
+					</div>
+					{{form_end(season_form)}}
+				</div>
+			</div>
+				{% if serie.seasons|length > 0 %}
+
+					{% set season = serie.seasons[0] %}
+					{% for s in serie.seasons %}
+					   {% if app.request.get("season") == s.id %}
+							{% set season = s %}
+					   {% endif %}
+					{% endfor %}
+
+				{% if season != null %}
+				<div class="col-md-12">
+					<div class="card card-initial">
+						<a href="#" class="btn btn-tab-season"><i class="material-icons">dynamic_feed</i> {{season.title}}</a>
+						<a href="{{path("app_season_edit",{"id":season.id})}}" class="btn btn-primary  btn-xs btn-tab-season-action pull-right"><i class="material-icons">edit</i></a>
+						<a href="{{path("app_season_delete",{"id":season.id})}}" class="btn btn-danger  btn-xs btn-tab-season-action pull-right"><i class="material-icons">delete</i></a>
+						<a href="{{path("app_season_up",{"id":season.id})}}" class="btn btn-info btn-xs btn-tab-season-action pull-right"><i class="material-icons">keyboard_arrow_up</i></a>
+						<a href="{{path("app_season_down",{"id":season.id})}}" class="btn btn-info btn-xs btn-tab-season-action pull-right"><i class="material-icons">keyboard_arrow_down</i></a>
+						<a href="{{path("app_episode_add",{"id":season.id})}}" class="btn btn-success btn-xs btn-tab-season-action pull-right"><i class="material-icons">add</i>New Episode</a>
+						<br>
+						<div class="episodes-contrainer ">
+							<div class="episodes-list">
+								{% for episode in season.episodes %}
+									<div class="card card-episode">
+										{% if episode.media == null %}
+											<img class="img" src="{{asset(season.poster.poster.link)|imagine_filter('actor_thumb')}}">
+										{% else %}
+											<img class="img" src="{{asset(episode.media.link)|imagine_filter('actor_thumb')}}">
+										{% endif %}
+										<div>
+											<h4>{{episode.title}}</h4>
+											<p>{{episode.description}}</p>
+											<div>
+												<a href="{{path("app_episode_edit",{"id":episode.id})}}" class="btn  btn-xs btn-success pull-right"><i class="material-icons">edit</i></a>
+												<a href="{{path("app_episode_delete",{"id":episode.id})}}" class="btn  btn-xs btn-danger pull-right"><i class="material-icons">delete</i></a>
+												<a href="{{path("app_episode_down",{"id":episode.id})}}" class="btn  btn-xs btn-info pull-right"><i class="material-icons">keyboard_arrow_down</i></a>
+												<a href="{{path("app_episode_up",{"id":episode.id})}}" class="btn  btn-xs btn-info pull-right"><i class="material-icons">keyboard_arrow_up</i></a>
+											</div>
+										</div>
+									</div>
+								{% endfor %}
+							</div>
+						</div>
+					</div>
+				</div>
+				{% endif %}
+				{% endif %}
+		</div>
+	</div>
+{% endblock%}

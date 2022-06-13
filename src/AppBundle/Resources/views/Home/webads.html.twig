@@ -1,0 +1,90 @@
+{% extends "AppBundle::layout.html.twig" %}
+{% block body%}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="tab-moivie tab-channel">
+                        <a href="{{path("app_home_settings")}}" class="btn btn-tab-movie col-md-12"><i class="material-icons">phonelink_setup</i> Mobile Settings</a>
+                        <a href="{{path("app_home_websettings")}}" class="btn btn-tab-movie col-md-12"><i class="material-icons">web</i> Web Settings</a>
+                        <a href="{{path("app_home_ads")}}" class="btn btn-tab-movie col-md-12"><i class="material-icons">show_chart</i> Ads Settings</a>
+                        <a href="{{path("app_home_webads")}}" class="btn btn-tab-movie-active col-md-12"><i class="material-icons">show_chart</i>Web Ads Settings</a>
+                        <a href="{{path("app_home_payment")}}" class="btn btn-tab-movie col-md-12"><i class="material-icons">payment</i> Payment Settings</a>
+                        <a href="{{path("app_home_edit_privacypolicy")}}" class="btn btn-tab-movie col-md-12"><i class="material-icons">privacy_tip</i> Privacy Policy</a>
+                        <a href="{{path("app_home_refundpolicy")}}" class="btn btn-tab-movie col-md-12"><i class="material-icons">attach_money</i> Refund Policy</a>
+                        <a href="{{path("app_home_faq")}}" class="btn btn-tab-movie col-md-12"><i class="material-icons">live_help</i> FAQ Page</a>
+                        <a href="{{path("admin_change_password")}}" class="btn btn-tab-movie col-md-12"><i class="material-icons">lock</i> Change password</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="card">
+                    <div class="card-header card-header-icon" data-background-color="rose">
+                        <i class="material-icons">monetization_on</i>
+                    </div>
+                    <div class="card-content">
+                        <h4 class="card-title">WebAds Settings</h4>
+                        {{form_start(form)}}
+                        <div class="panel-body">
+                            <label class="panel-title">Home Page</label>
+                            <div class="form-group label-floating is-empty">
+                                <label class="control-label">Ads type</label>
+                                {{form_widget(form.homebannertype,{"attr":{"class":"form-control"}})}}
+                            </div>
+                            <span class="validate-input">{{form_errors(form.homebannertype)}}</span>
+                            <div class="form-group label-floating is-empty">
+                                <label class="control-label">ads Content</label>
+                                {{form_widget(form.homebanner,{"attr":{"class":"form-control"}})}}
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <label class="panel-title">Movie Page</label>
+                            <div class="form-group label-floating is-empty">
+                                <label class="control-label">Ads type</label>
+                                {{form_widget(form.moviebannertype,{"attr":{"class":"form-control"}})}}
+                            </div>
+                            <span class="validate-input">{{form_errors(form.moviebannertype)}}</span>
+                            <div class="form-group label-floating is-empty">
+                                <label class="control-label">ads Content</label>
+                                {{form_widget(form.moviebanner,{"attr":{"class":"form-control"}})}}
+                            </div>
+                            <span class="validate-input">{{form_errors(form.moviebanner)}}</span>
+
+                        </div>  
+                        <div class="panel-body">
+                            <label class="panel-title">Serie Page</label>
+                            <div class="form-group label-floating is-empty">
+                                <label class="control-label">Ads type</label>
+                                {{form_widget(form.seriebannertype,{"attr":{"class":"form-control"}})}}
+                            </div>
+                            <span class="validate-input">{{form_errors(form.seriebannertype)}}</span>
+                            <div class="form-group label-floating is-empty">
+                                <label class="control-label">ads Content</label>
+                                {{form_widget(form.seriebanner,{"attr":{"class":"form-control"}})}}
+                            </div>
+                            <span class="validate-input">{{form_errors(form.seriebanner)}}</span>
+
+                        </div>    
+                        <div class="panel-body">
+                            <label class="panel-title">Channel Page</label>
+                            <div class="form-group label-floating is-empty">
+                                <label class="control-label">Ads type</label>
+                                {{form_widget(form.channelbannertype,{"attr":{"class":"form-control"}})}}
+                            </div>
+                            <span class="validate-input">{{form_errors(form.channelbannertype)}}</span>
+                            <div class="form-group label-floating is-empty">
+                                <label class="control-label">ads Content</label>
+                                {{form_widget(form.channelbanner,{"attr":{"class":"form-control"}})}}
+                            </div>
+                            <span class="validate-input">{{form_errors(form.channelbanner)}}</span>
+
+                        </div>         
+                        <span class="pull-right"><a href="{{path("app_category_index")}}" class="btn btn-fill btn-yellow"><i class="material-icons">arrow_back</i> Cancel</a>{{form_widget(form.save,{attr:{"class":"btn btn-fill btn-rose"}})}}</span>
+                    </div>
+                    {{form_end(form)}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock%}

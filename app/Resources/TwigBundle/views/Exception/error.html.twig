@@ -1,0 +1,30 @@
+{% extends "WebBundle::login.html.twig" %}
+{% set subtitle =   "404!"  %}
+{% set og_description =  "404!" %}
+{% set og_type =  "null" %}
+{% set og_image =  "null" %}
+{% set keywords =  "null" %}
+{% trans_default_domain 'FOSUserBundle' %}
+{% block body %}
+                <br>
+            <br>
+            <br>
+            <br>
+        <div class="login-box">
+
+            <div class="notif-body">
+                <div class="carda__body pdn--al">
+                    <br>
+                    <h1>404</h1>
+                    <br>
+                    <p>The page you where looking for doesn't exist</p>
+                                        <br>
+                    <br>
+                    <a class="float-right" href="{{path("web_home_index")}}"><i class="fa fa-fw fa-home "></i> Go Home</a>
+                    <br>
+                    <br>
+
+                </div>
+            </div>
+        </div>
+   {% endblock %}

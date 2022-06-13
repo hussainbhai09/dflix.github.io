@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+        {{render(controller("WebBundle:Home:header",{"keywords": keywords ,"og_image": og_image ,"og_description" : og_description,"subtitle" : subtitle, "og_type" : og_type}))}}
+        <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+            <link href="{{asset("web/css/style.css")}}" rel="stylesheet">
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+        <script src="https://kit.fontawesome.com/017eaf7e3f.js" crossorigin="anonymous"></script>
+    </head>
+
+    <body alt="{{app.request.schemeAndHttpHost ~ app.request.baseUrl}}" class="{{ (app.session.get('theme') == "light") ? 'light-mode' : 'dark-mode' }}">
+        {% for type, messages in app.session.flashbag.all() %}
+            {% for message in messages %}
+                <div class="alert  alert-home"   >
+                    <i class="fas fa-bell"></i>
+                    <button type="button" aria-hidden="true" class="close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    <span data-notify="message">{{message|trans}}</span>
+                </div>
+            {% endfor %}
+        {% endfor %}
+        <div class="login-page-bg" ></div>
+        <div class="login-page-bg-blur"></div>
+        <div class="login-page-content">
+            {% if app.session.get('theme') == "light" %}
+                <a  id="lightmode" href="#" style="display:none"><i class="fas fa-sun"></i></a>
+                <a  id="darkmode" href="#" ><i class="fas fa-moon"></i> </a>
+            {% else %}
+                <a  id="lightmode" href="#" ><i class="fas fa-sun"></i></a>
+                <a  id="darkmode" href="#" style="display:none"><i class="fas fa-moon"></i> </a>
+            {% endif %}
+            {{render(controller("WebBundle:Home:logo"))}}
+            {% block body %}{% endblock %}
+
+        </div>
+	<!-- Include all compiled plugins (below), or include individual files as needed -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+		{% block script %}{% endblock %}
+
+		<script src="{{asset("web/js/app.js")}}" ></script>
+    </body>
+</html>

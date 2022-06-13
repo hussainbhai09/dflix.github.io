@@ -1,0 +1,94 @@
+{% extends "AppBundle::layout.html.twig" %}
+{% block body%}
+    <div class="container-fluid">
+        <div class="row">
+            {% if user.media != null %}
+                {% if user.media.type =="link" %}
+                    {% set image = user.media.url%}
+                {% else %}
+                    {% set image = asset(user.media.link)|imagine_filter('actor_thumb') %}
+                {% endif %}
+            {% else %}
+                {% set image = asset("img/avatar.jpg")|imagine_filter('actor_thumb') %}
+            {% endif %}
+            <div class="col-md-12" style=" height: auto; text-align:center;background-image:url({{image}});background-position: center;background-size: 100%;text-align: center;">
+                {% if user.media != null %}
+                    {% if user.media.type =="link" %}
+                        <img  style="border-radius:300px;margin:10px;height:100px;width:100px;border: 5px solid rgb(255, 247, 247);" src="{{user.media.url}}" >
+                    {% else %}
+                        <img  style="border-radius:300px;margin:10px;height:100px;width:100px;border: 5px solid rgb(255, 247, 247);" src="{{asset(user.media.link)|imagine_filter('actor_thumb')}}" >
+                    {% endif %}
+                {% else %}
+                    <img class="avatar-char palette-Red-400 bg"  style="border-radius: 100px;    border: 0.5px solid #ccc;" src="{{asset("img/avatar.jpg")|imagine_filter('actor_thumb')}}" alt="">
+                {% endif %}
+                <h3 style=" color: white; font-weight: bold">{{user.name}}</h3>
+            </div>
+            <div  class="col-md-12" style="border:1px solid #ccc;height:70px;background:white">
+                <div class="row">
+                    <div  class="col-md-3" style="border-right:1px solid #ccc;height:70px;background:white">
+                        <a href="{{path("user_user_edit",{"id":user.id})}}" style="color:black;font-size:20px;line-height: 70px;font-weight: bold;">Edit infos</a>
+                    </div>
+                    <div  class="col-md-3" style="border-right:1px solid #ccc;height:70px;background:white">
+                        <a href="{{path("user_user_comments",{"id":user.id})}}" style="color:black;font-size:20px;line-height: 70px;font-weight: bold;">Comments </a>
+                    </div>
+                    <div  class="col-md-3" style="border-right:1px solid #ccc;height:70px;background:white">
+                        <a href="{{path("user_user_ratings",{"id":user.id})}}" style="color:black;font-size:20px;line-height: 70px;font-weight: bold;">Ratings </a>
+                    </div>
+                    <div  class="col-md-3" style="border-right:1px solid #ccc;height:70px;background:white">
+                        <a href="{{path("user_admin_user_subscriptions",{"id":user.id})}}" style="color:black;font-size:20px;line-height: 70px;font-weight: bold;">Subscriptions </a>
+                    </div>
+                </div>
+                
+            </div>
+            <div  class="" >
+                <br>
+                <br>
+               
+						<div class="card" >
+							<div class="table-responsive">
+								<table class="table table-source" width="100%">
+									<thead class="text-primary">
+										<tr>
+											<th><b>User</b></th>
+											<th><b>Pack</b></th>
+											<th><b>Price</b></th>
+											<th><b>Duration</b></th>
+											<th><b>Started</b></th>
+											<th><b>Expired</b></th>
+											<th><b>Status</b></th>
+											<th><b>Action</b></th>
+										</tr>
+									</thead>
+									<tbody>
+										{% for subscription in pagination %}
+											<tr>
+												<td><a href="{{path("user_user_edit",{"id":subscription.id})}}"><b>{{subscription.user.name}}</b></a></td>
+												<td>{{subscription.pack}}</td>
+												<td>{{subscription.price}} {{subscription.currency}}</td>
+												<td>{{subscription.duration}} <small>Day(s)</small></td>
+												<td>{{subscription.started|date("d/m/y H:i")}}</td>
+												<td>{{subscription.expired|date("d/m/y H:i")}}</td>
+												<td><span class="label label-{{(subscription.status == "paid")?"success":"danger"}}">{{subscription.status}}</span></td>
+												<td><a href="{{path("app_subscription_delete",{"id":subscription.id})}}" class="btn btn-rose btn-xs pull-right"><i class="material-icons">delete</i></a><a href="{{path("app_subscription_edit",{"id":subscription.id})}}" class="btn btn-success btn-xs pull-right"><i class="material-icons">edit</i></a></td>
+											</tr>
+										{% else %}
+											<tr>
+												<td colspan="8">
+													<br>
+														<center><img src="{{asset("img/bg_empty.png")}}"  style="width: auto !important;" =""></center>
+													<br>
+												</td>
+											</tr>
+										{% endfor %}
+									</tbody>
+								</table>
+							</div>
+						</div>
+                        <div class=" pull-right">
+                            {{ knp_pagination_render(pagination) }}
+                        </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock%}

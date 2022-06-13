@@ -1,0 +1,50 @@
+{% extends "WebBundle::layout.html.twig" %}
+{% set subtitle =   app.request.get('genre')|capitalize ~ " Tv Shows"  %}
+{% set og_description =  app.request.get('genre')|capitalize ~ " Tv Shows" %}
+{% set og_type =  "null" %}
+{% set og_image =  "null" %}
+{% set keywords =  "null" %}
+{% block title %}Tv Shows {% if app.request.get('genre') != "all" %} • {{app.request.get('genre')}}{% endif %}{% endblock %}
+{% block body %}
+
+	<div class="row content-section">
+		<div class="filter-section">
+			<div class="btn-group season-dropdown float-right" role="group" aria-label="Basic example">
+				<a href="{{path("wep_serie_index",{type:app.request.get("type"),genre:app.request.get('genre'),order:"newest"})}}" class="btn btn-secondary {% if "newest" ==  app.request.get("order") %} active {% endif %}"><i class="far fa-clock"></i> <span class="for-desktop"> Newest</span></a>
+				<a href="{{path("wep_serie_index",{type:app.request.get("type"),genre:app.request.get('genre'),order:"views"})}}" class="btn btn-secondary {% if "views" ==  app.request.get("order") %} active {% endif %}"><i class="far fa-eye"></i> <span class="for-desktop"> Views</span></a>
+				<a href="{{path("wep_serie_index",{type:app.request.get("type"),genre:app.request.get('genre'),order:"rating"})}}" class="btn btn-secondary {% if "rating" ==  app.request.get("order") %} active {% endif %}"><i class="fas fa-star-half-alt"></i> <span class="for-desktop"> Rating</span></a>
+				<a href="{{path("wep_serie_index",{type:app.request.get("type"),genre:app.request.get('genre'),order:"imdb"})}}" class="btn btn-secondary {% if "imdb" ==  app.request.get("order") %} active {% endif %}"><i class="fab fa-imdb"></i> <span class="for-desktop"> IMdb Rating</span></a>
+				<a href="{{path("wep_serie_index",{type:app.request.get("type"),genre:app.request.get('genre'),order:"title"})}}" class="btn btn-secondary {% if "title" ==  app.request.get("order") %} active {% endif %}"><i class="fas fa-sort-alpha-down"></i> <span class="for-desktop"> Title</span></a>
+				<a href="{{path("wep_serie_index",{type:app.request.get("type"),genre:app.request.get('genre'),order:"year"})}}" class="btn btn-secondary {% if "year" ==  app.request.get("order") %} active {% endif %}"><i class="fas fa-calendar-alt"></i> <span class="for-desktop"> Year</span></a>
+			</div>
+			<div class="btn-group season-dropdown" role="group">
+				<button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				{{ (app.request.get('genre') == "all")? "All Genres": app.request.get('genre') }}
+				</button>
+				<div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+					<a class="dropdown-item" href="{{path("wep_serie_index",{type:app.request.get("type"),genre:"all",order:"newest"})}}">All Genres</a>
+					{% for genre in genres %}
+						<a class="dropdown-item" href="{{path("wep_serie_index",{type:app.request.get("type"),genre:genre.title,order:app.request.get("order")})}}">{{genre}}</a>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row content-section">
+		<div></div>
+		{% for poster in posters %}
+			{% if poster.type == "movie" %}
+				{{ include('WebBundle:Movie:movie.html.twig',{poster:poster,class:"col-4 col-md-2 col-xxl-2"}) }}
+			{% else %}
+				{{ include('WebBundle:Serie:serie.html.twig',{poster:poster,class:"col-4 col-md-2 col-xxl-2"}) }}
+			{% endif %}
+		{% endfor %}
+	</div>
+	<div class="row content-section">
+		<div class="filter-section">
+			<div class=" float-right">
+				{{ knp_pagination_render(posters) }}
+			</div>
+		</div>
+	</div>
+{% endblock %}

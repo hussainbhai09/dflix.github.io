@@ -1,0 +1,185 @@
+web_home_index:
+    path:     /
+    defaults: { _controller: WebBundle:Home:index }
+wep_home_mylist:
+    path:     /mylist.html
+    defaults: { _controller: WebBundle:Home:mylist }
+wep_home_privacy:
+    path:     /privacy-policy.html
+    defaults: { _controller: WebBundle:Home:privacy }
+wep_home_contact:
+    path:     /contact-us.html
+    defaults: { _controller: WebBundle:Home:contact }
+wep_home_refund:
+    path:     /refund-policy.html
+    defaults: { _controller: WebBundle:Home:refund_privacy }
+wep_home_faq:
+    path:     /faq-support.html
+    defaults: { _controller: WebBundle:Home:faq }
+wep_home_mylist_add:
+    path:     /ajax/mylist/add.html
+    defaults: { _controller: WebBundle:Home:ajaxMyList }
+wep_home_search:
+    path: /search
+    defaults: { _controller:WebBundle:Home:search }
+wep_subscription_charge:
+    path:     /ajax/subscription/charge.html
+    defaults: { _controller: WebBundle:Subscription:charge_ajax }
+    requirements:
+        id:  \d+
+wep_subscription_card:
+    path:     /subscription/card/{id}.html
+    defaults: { _controller: WebBundle:Subscription:card }
+    requirements:
+        id:  \d+
+wep_subscription_finish:
+    path:     /subscription/finish/{id}.html
+    defaults: { _controller: WebBundle:Subscription:finish }
+    requirements:
+        id:  \d+
+wep_subscription_paypal_finish:
+    path:     /subscription/paypal/finish/{id}.html
+    defaults: { _controller: WebBundle:Subscription:paypal_finish }
+    requirements:
+        id:  \d+
+wep_subscription_notify:
+    path:     /subscription/notify.html
+    defaults: { _controller: WebBundle:Subscription:notify }
+wep_subscription_cancel:
+    path:     /subscription/cancel/{id}.html
+    defaults: { _controller: WebBundle:Subscription:cancel }
+    requirements:
+        id:  \d+
+wep_subscription_subscribe:
+    path:     /subscription/subscribe.html
+    defaults: { _controller: WebBundle:Subscription:subscribe }
+wep_subscription_paypal:
+    path:     /subscription/paypal/{id}.html
+    defaults: { _controller: WebBundle:Subscription:paypal }
+    requirements:
+        id:  \d+ 
+wep_subscription_manual:
+    path:     /subscription/manual/{id}.html
+    defaults: { _controller: WebBundle:Subscription:manual }
+    requirements:
+        id:  \d+
+
+wep_movie_view:
+    path:     /movie/{id}/{slug}.html
+    defaults: { _controller: WebBundle:Movie:view }
+    requirements:
+        id:  \d+ 
+wep_movie_share:
+    path:     /share/{id}.html
+    defaults: { _controller: WebBundle:Movie:share }
+    requirements:
+        id:  \d+ 
+wep_actor_view:
+    path:     /actor/{id}/{slug}.html
+    defaults: { _controller: WebBundle:Actor:view }
+    requirements:
+        id:  \d+ 
+wep_actor_index:
+    path:     /actors.html
+    defaults: { _controller: WebBundle:Actor:index }
+    requirements:
+        id:  \d+ 
+ajax_home_theme: 
+    path:     /ajax/theme/
+    defaults: { _controller: WebBundle:Home:ajaxTheme }
+wep_movie_index:
+    path:     /movies/{genre}/{order}.html
+    defaults: { _controller: WebBundle:Movie:index }
+wep_movie_subtitles:
+    path:     /ajax/movie/subtitles/{id}.html
+    defaults: { _controller: WebBundle:Movie:subtitles }
+    requirements:
+        id:  \d+ 
+wep_movie_downloads:
+    path:     /ajax/movie/downloads/{id}.html
+    defaults: { _controller: WebBundle:Movie:downloads }
+    requirements:
+        id:  \d+ 
+wep_poster_filter:
+    path:     /filter/{genre}/{order}.html
+    defaults: { _controller: WebBundle:Movie:filter }
+wep_serie_index:
+    path:     /series/{genre}/{order}.html
+    defaults: { _controller: WebBundle:Serie:index }
+wep_serie_view:
+    path:     /serie/{id}/{slug}.html
+    defaults: { _controller: WebBundle:Serie:view }
+    requirements:
+        id:  \d+ 
+wep_serie_episode:
+    path:     /serie/{poster}/{slug}/{id}.html
+    defaults: { _controller: WebBundle:Serie:episode }
+    requirements:
+        id:  \d+ 
+wep_serie_episodes:
+    path:     /ajax/episodes/{id}.html
+    defaults: { _controller: WebBundle:Serie:episodes }
+    requirements:
+        id:  \d+ 
+wep_comment_add:
+    path:     /ajax/comment/add.html
+    defaults: { _controller: WebBundle:Comment:ajaxAdd }
+    requirements:
+        id:  \d+ 
+wep_rate_add:
+    path:     /ajax/rating/add.html
+    defaults: { _controller: WebBundle:Rate:ajaxAdd }
+    requirements:
+        id:  \d+ 
+wep_serie_subtitles:
+    path:     /ajax/serie/subtitles/{id}.html
+    defaults: { _controller: WebBundle:Serie:subtitles }
+    requirements:
+        id:  \d+ 
+wep_serie_downloads:
+    path:     /ajax/serie/downloads/{id}.html
+    defaults: { _controller: WebBundle:Serie:downloads }
+    requirements:
+        id:  \d+ 
+wep_channel_view:
+    path:     /channel/{id}/{slug}.html
+    defaults: { _controller: WebBundle:Channel:view }
+    requirements:
+        id:  \d+ 
+wep_channel_share:
+    path:     /c/share/{id}.html
+    defaults: { _controller: WebBundle:Channel:share }
+    requirements:
+        id:  \d+ 
+wep_channel_index:
+    path:     /channels/{category}/{country}/{order}.html
+    defaults: { _controller: WebBundle:Channel:index }
+wep_actor_view:
+    path:     /actor/{id}/{slug}.html
+    defaults: { _controller: WebBundle:Actor:view }
+    requirements:
+        id:  \d+ 
+wep_player_channel:
+    path:     /player/c/{id}/{slug}/{source}.html
+    defaults: { _controller: WebBundle:Player:channel }
+    requirements:
+        id:  \d+ 
+        source:  \d+ 
+wep_player_movie:
+    path:     /player/m/{id}/{slug}/{source}.html
+    defaults: { _controller: WebBundle:Player:movie }
+    requirements:
+        id:  \d+ 
+        source:  \d+ 
+wep_player_pre_episode:
+    path:     /player/pre/e/{id}/{slug}.html
+    defaults: { _controller: WebBundle:Player:preepisode }
+    requirements:
+        id:  \d+ 
+        source:  \d+ 
+wep_player_episode:
+    path:     /player/e/{id}/{slug}/{source}.html
+    defaults: { _controller: WebBundle:Player:episode }
+    requirements:
+        id:  \d+ 
+        source:  \d+ 

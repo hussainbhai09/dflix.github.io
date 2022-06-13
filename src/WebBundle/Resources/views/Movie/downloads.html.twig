@@ -1,0 +1,49 @@
+<div class=" downloads-table" >
+	<div class="table-responsive ">
+		{% if sources|length == 0 %}
+			<div class="empty-box">
+				<img style="width: 150px;height: 135px;" src="{{asset('web/img/empty.svg')}}">
+				<h3>Empty list</h3>
+			</div>
+		{% else %}
+			<table class="table">
+				<thead>
+					<tr>
+						<th scope="col">Release</th>
+						<th scope="col" >Size</th>
+						<th scope="col" width="130px;" >Quality</th>
+						<th scope="col" width="140px;">Download</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for source in sources %}
+						<tr>
+							<td>{{source.title|capitalize}}</td>
+							<td>{{source.size}}</td>
+							<td><label class="badge badge-light">{{source.quality}}</label></td>
+							<td>
+								{% if source.premium == 1 or source.premium == 3 %}
+									{% if source.type == "file" %}
+										<a {% if source.external %} target="_blank" {% endif %}  href="{{app.request.scheme ~'://' ~ app.request.httpHost ~ asset(source.media.link)}}" class="btn btn-primary btn-sm"><i class="fas fa-download"></i> Download</a>
+									{% else %}
+										<a {% if source.external %} target="_blank" {% endif %} href="{{source.url}}" class="btn btn-primary btn-sm"><i class="fas fa-download"></i> Download</a>
+									{% endif %}
+								{% else %}
+									{% if premium %}
+										{% if source.type == "file" %}
+											<a {% if source.external %} target="_blank" {% endif %}  href="{{app.request.scheme ~'://' ~ app.request.httpHost ~ asset(source.media.link)}}" class="btn btn-primary btn-sm"><i class="fas fa-download"></i> Download</a>
+										{% else %}
+											<a {% if source.external %} target="_blank" {% endif %} href="{{source.url}}" class="btn btn-primary btn-sm"><i class="fas fa-download"></i> Download</a>
+										{% endif %}
+									{% else %}
+										<a href="{{path("wep_subscription_subscribe")}}" class="btn btn-primary btn-sm"><i class="fas fa-star"></i> Subscribe !</a>
+									{% endif %}
+								{% endif %}
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		{% endif %}
+	</div>
+</div>

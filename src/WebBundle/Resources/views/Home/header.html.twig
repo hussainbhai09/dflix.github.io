@@ -1,0 +1,10 @@
+		<link rel="icon" type="image/x-icon" href="{{asset((settings.favicon != null)? settings.favicon.link : "favicon.png")}}" />	
+		<title>{{settings.title}} {% if subtitle != null %} - {{subtitle}}{% endif %}</title>
+		<meta property="description" content="{{(og_description == "null")? settings.sitedescription : og_description}}">
+		<meta property="keywords" content="{{(keywords == "null")? settings.sitekeywords : keywords}}">
+		<meta property="og:type" content="{{(og_type == "null")? "website" : og_type}}">
+		<meta property="og:title" content="{{settings.title}} {% if subtitle != null %} - {{subtitle}}{% endif %}">
+		<meta property="og:description" content="{{og_description}}">
+		<meta property="og:site_name" content="{{settings.title}} ">
+		<meta property="og:image" content="{{(og_image == "null")? asset((settings.logo != null)? settings.logo.link : "web/img/logo.png")|imagine_filter('slide_thumb_web'):og_image}}">
+		{{settings.header|raw}}

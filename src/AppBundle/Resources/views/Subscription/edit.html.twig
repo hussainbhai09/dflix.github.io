@@ -1,0 +1,68 @@
+{% extends "AppBundle::layout.html.twig" %}
+{% block body%}
+<div class="container-fluid">
+    <div class="row">
+       <div class="col-sm-offset-1  col-md-9">
+            <div class="card">
+                <div class="card-header card-header-icon" data-background-color="rose">
+                    <i class="material-icons">credit_card</i>
+                </div>
+                <div class="card-content">
+                    <h4 class="card-title">{{form.vars.value.user.name}} Subscription "{{form.vars.value.pack}}"  </h4>
+                    <br>
+                    {{form_start(form)}}
+                        <div class="form-group label-floating is-empty">
+                            <label class="control-label">Subscription duration</label>
+                            {{form_widget(form.duration,{"attr":{"class":"form-control"}})}}
+                            <span class="validate-input">{{form_errors(form.duration)}}</span>
+                        </div>
+                        <div class="form-group label-floating is-empty">
+                            <label class="control-label">Subscription pack</label>
+                            {{form_widget(form.pack,{"attr":{"class":"form-control"}})}}
+                            <span class="validate-input">{{form_errors(form.pack)}}</span>
+                        </div>
+                        <div class="form-group label-floating is-empty">
+                            <label class="control-label">Subscription status</label>
+                            {{form_widget(form.status,{"attr":{"class":"form-control"}})}}
+                            <span class="validate-input">{{form_errors(form.status)}}</span>
+                        </div>
+                        <div class="form-group label-floating is-empty">
+                            <label class="control-label">Payment transaction id</label>
+                            {{form_widget(form.transaction,{"attr":{"class":"form-control"}})}}
+                            <span class="validate-input">{{form_errors(form.transaction)}}</span>
+                        </div>
+                        <div class="form-group label-floating is-empty">
+                            <label class="control-label">Payment infos</label>
+                            {{form_widget(form.infos,{"attr":{"class":"form-control"}})}}
+                            <span class="validate-input">{{form_errors(form.infos)}}</span>
+                        </div>
+                        <div class="form-group label-floating is-empty">
+                            <label class="control-label">Payment email</label>
+                            {{form_widget(form.email,{"attr":{"class":"form-control"}})}}
+                            <span class="validate-input">{{form_errors(form.email)}}</span>
+                        </div>
+                        <div class="form-group label-floating is-empty">
+                            <label class="control-label">Subscription started</label>
+                            {{form_widget(form.started,{"attr":{"class":"form-date"}})}}
+                            <span class="validate-input">{{form_errors(form.started)}}</span>
+                        </div>
+                        <div class="form-group label-floating is-empty">
+                            <label class="control-label">Subscription expired</label>
+                            {{form_widget(form.expired,{"attr":{"class":"form-date"}})}}
+                            <span class="validate-input">{{form_errors(form.expired)}}</span>
+                        </div>
+                        <span class="pull-right"><a href="{{path("app_subscription_index")}}" class="btn btn-fill btn-yellow"><i class="material-icons">arrow_back</i> Cancel</a>{{form_widget(form.save,{attr:{"class":"btn btn-fill btn-success"}})}}</span>
+                    {{form_end(form)}}
+                </div>
+            </div>
+        </div>
+        {% if form.vars.value.media != null %}
+         <div class="col-md-6">
+            <div class="card">
+                <img src="{{asset(form.vars.value.media.link)}}"> 
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock%}

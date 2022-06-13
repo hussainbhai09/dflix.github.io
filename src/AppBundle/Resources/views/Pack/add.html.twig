@@ -1,0 +1,46 @@
+{% extends "AppBundle::layout.html.twig" %}
+{% block body%}
+<div class="container-fluid">
+    <div class="row">
+       <div class="col-sm-offset-2 col-md-8">
+            <div class="card">
+                <div class="card-header card-header-icon" data-background-color="rose">
+                    <i class="material-icons">local_mall</i>
+                </div>
+                <div class="card-content">
+                    <h4 class="card-title">New subscription pack</h4>
+                    <br>
+                    {{form_start(form)}}
+                        <div class="form-group label-floating is-empty">
+                            <label class="control-label">Pack title</label>
+                            {{form_widget(form.title,{"attr":{"class":"form-control"}})}}
+                            <span class="validate-input">{{form_errors(form.title)}}</span>
+                        </div>
+                        <div class="form-group label-floating is-empty">
+                            <label class="control-label">Pack description</label>
+                            {{form_widget(form.description,{"attr":{"class":"form-control"}})}}
+                            <span class="validate-input">{{form_errors(form.description)}}</span>
+                        </div>
+                        <div class="form-group label-floating is-empty">
+                            <label class="control-label">Pack price</label>
+                            {{form_widget(form.price,{"attr":{"class":"form-control"}})}}
+                            <span class="validate-input">{{form_errors(form.price)}}</span>
+                        </div>
+                        <div class="form-group label-floating is-empty">
+                            <label class="control-label">Pack discount</label>
+                            {{form_widget(form.discount,{"attr":{"class":"form-control"}})}}
+                            <span class="validate-input">{{form_errors(form.discount)}}</span>
+                        </div>
+                        <div class="form-group label-floating is-empty">
+                            <label class="control-label">Pack duration (Days)</label>
+                            {{form_widget(form.duration,{"attr":{"class":"form-control"}})}}
+                            <span class="validate-input">{{form_errors(form.duration)}}</span>
+                        </div>
+                        <span class="pull-right"><a href="{{path("app_pack_index")}}" class="btn btn-fill btn-yellow"><i class="material-icons">arrow_back</i> Cancel</a>{{form_widget(form.save,{attr:{"class":"btn btn-fill btn-success"}})}}</span>
+                    {{form_end(form)}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock%}

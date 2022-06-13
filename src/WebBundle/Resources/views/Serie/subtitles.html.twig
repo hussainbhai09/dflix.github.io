@@ -1,0 +1,30 @@
+<div class="subtitles-table" >
+	<div class="table-responsive  ">
+		{% if episode.subtitles|length == 0 %}
+			<div class="empty-box">
+				<img style="width: 150px;height: 135px;" src="{{asset('web/img/empty.svg')}}">
+				<h3>Empty list</h3>
+			</div>
+		{% else %}
+		<table class="table">
+			<thead>
+				<tr>
+					<th width="120px;" scope="col">Language</th>
+					<th scope="col">Release</th>
+					<th scope="col" width="130px;">Download</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for subtitle in episode.subtitles %}
+					<tr>
+						<td><img src="{{asset(subtitle.language.media.link)|imagine_filter('language_thumb_api')}}"> <b>{{subtitle.language.language}}</b></td>
+						<td><small>	{{subtitle.media.titre}}</small></td>
+						<td><a href="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset(subtitle.media.link) }}" class="btn btn-primary btn-sm"><i class="fas fa-download"></i> Download</a></td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		{% endif %}
+
+	</div>
+</div>

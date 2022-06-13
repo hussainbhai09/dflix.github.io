@@ -1,0 +1,6 @@
+<a class="channel {{(class is defined)? class : ""}}" href="{{path("wep_channel_view",{id:channel.id,slug:channel.slug})}}" >
+		<img height="75" width="150" src="{{asset(channel.media.link|imagine_filter('channel_thumb_web'))}}"/>
+		<div>
+			{% if channel.label != "" %}<span>{{channel.label}}</span>{% endif %}{% if channel.sublabel != "" %}<p {% if channel.sublabel != "" %} class="two" {% endif %}>{{channel.sublabel}}</p>{% endif %}
+		</div>
+</a>

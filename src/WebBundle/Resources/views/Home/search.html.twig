@@ -1,0 +1,77 @@
+{% extends "WebBundle::layout.html.twig" %}
+{% set subtitle =  "Search '" ~ app.request.get("q")~  "'" %}
+{% set og_description =  "Search '" ~ app.request.get("q")~  "'"  %}
+{% set og_type =  "null" %}
+{% set og_image =  "null" %}
+{% set keywords =  "null" %}
+{% block title %} Search : "{{app.request.get("q")}}"{% endblock %}
+{% block body %}
+
+	<div class="row content-section">
+			{% if actors|length != 0 %}
+
+			<div class="col-sm-12 col-md-12 ">
+				<a href="" class="title-more">
+					<span>Actors</span>
+				</a>
+			</div>
+			<div class="flix-carousel" >
+				<button  class="prev_btn"><i class="fa fa-chevron-left"></i></button>
+				<button  class="next_btn"><i class="fa fa-chevron-right"></i></button>
+				<div class="flix-scroll-x">
+					{% for actor in actors %}
+						<a href="{{path("wep_actor_view",{"id":actor.id,"slug":actor.slug})}}" class="col-sm-1 col-md-1 actor" >
+							<img src="{{asset( actor.media.link)|imagine_filter('actor_thumb_mini_web')}}"/>
+							<span>{{actor.name}}</span>
+						</a>
+					{% endfor %}
+				</div>
+			</div>
+			{% endif %}
+
+			{% if channels|length != 0 %}
+			<div class="col-sm-12 col-md-12 ">
+				<a class="title-more">
+					<span>Tv channels</span>
+				</a>
+			</div>
+			<div class="flix-carousel" >
+				<button  class="prev_btn"><i class="fa fa-chevron-left"></i></button>
+				<button  class="next_btn"><i class="fa fa-chevron-right"></i></button>
+				<div class="flix-scroll-x">
+					{% for channel in channels %}
+						<a class="channel" href="{{path("wep_channel_view",{id:channel.id,slug:channel.slug})}}" >
+							<img src="{{asset(channel.media.link|imagine_filter('channel_thumb'))}}"/>
+						</a>
+					{% endfor %}
+				</div>
+			</div>
+			{% endif %}
+			{% if posters|length >  0 %}
+				<div class="col-sm-12 col-md-12 ">
+					<a class="title-more">
+						<span>Movies / Tv Series</span>
+					</a>
+				</div>
+				{% for poster in posters %}
+					{% if poster.type == "movie" %}
+						{{ include('WebBundle:Movie:movie.html.twig',{poster:poster,class:"col-4 col-md-2 col-xxl-2"}) }}
+					{% else %}
+						{{ include('WebBundle:Serie:serie.html.twig',{poster:poster,class:"col-4 col-md-2 col-xxl-2"}) }}
+					{% endif %}
+				{% endfor %}
+				<div class="filter-section">
+					<div class=" float-right">
+						{{ knp_pagination_render(posters) }}
+					</div>
+				</div>
+		{% endif %}
+		{% if posters|length ==  0  and channels|length == 0  and actors|length == 0 %}
+		<div class="empty-box">
+			<img src="{{asset('web/img/empty.svg')}}">
+			<h3>Empty list</h3>
+			<p>start adding some content in your list</p>
+		</div>
+		{% endif %}
+	</div>
+{% endblock %}

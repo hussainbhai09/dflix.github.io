@@ -1,0 +1,14 @@
+{% extends "WebBundle::layout.html.twig" %}
+{% set subtitle =  "Privacy Policy" %}
+{% set og_description =  "Privacy Policy" %}
+{% set og_type =  "null" %}
+{% set og_image =  "null" %}
+{% set keywords =  "null" %}
+{% block title %}Privacy Policy{% endblock %}
+{% block body %}
+	<div class="row content-section">
+		<div class="col-sm-12 col-md-12 ">
+			{{setting.privacypolicy|raw}}
+		</div>
+	</div>
+{% endblock %}

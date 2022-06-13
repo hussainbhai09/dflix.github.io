@@ -1,0 +1,25 @@
+{% extends "WebBundle::login.html.twig" %}
+{% set subtitle =   "Registration"  %}
+{% set og_description =  "Registration" %}
+{% set og_type =  "null" %}
+{% set og_image =  "null" %}
+{% set keywords =  "null" %}
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block body %}
+				<div class="login-box">
+					<div class="notif-head">
+						<span class="notif-title"><i class="fa fa-fw fa-check"></i>  Account has been created </span>
+					</div>
+					<div class="notif-body">
+						<div class="carda__body pdn--al">
+							<br>
+							{% trans_default_domain 'FOSUserBundle' %}
+							{% block fos_user_content %}
+								<p>{{ 'registration.check_email'|trans({'%email%': user.email}) }}</p>
+							{% endblock fos_user_content %}
+							<br>
+						</div>
+					</div>
+				</div>
+			{% endblock %}

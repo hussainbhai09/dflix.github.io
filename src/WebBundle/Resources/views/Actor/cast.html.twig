@@ -1,0 +1,5 @@
+<a href="{{path("wep_actor_view",{id:cast.actor.id,slug:cast.actor.slug})}}" class="actor" >
+	<img src="{{asset(cast.actor.media.link)|imagine_filter('actor_thumb_mini_web')}}"/>
+	<span>{{cast.actor.name}}</span>
+	<label>{{cast.role}}</label>
+</a>

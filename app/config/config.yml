@@ -1,0 +1,244 @@
+imports:
+    - { resource: parameters.yml }
+    - { resource: security.yml }
+    - { resource: services.yml }
+    - { resource: "@AppBundle/Resources/config/services.yml" }
+    - { resource: "@WebBundle/Resources/config/services.yml" }
+    - { resource: "@UserBundle/Resources/config/services.yml" }
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+stof_doctrine_extensions:
+    orm:
+        default:
+            sluggable: true
+parameters:
+    locale: en
+    files_directory: '%kernel.root_dir%/../public_html/uploads/'
+    files_directory_mp3: '%kernel.root_dir%/../public_html/files/'
+    files_directory_read: '/uploads/'
+    files_directory_read_mp3: '/files/'
+    token_app: "4F5A9C3D9A86FA54EACEDDD635185"
+
+framework:
+    session:
+        gc_probability: 0
+    translator: { fallbacks: [en] }
+    secret: '%secret%'
+    router:
+        resource: '%kernel.project_dir%/app/config/routing.yml'
+        strict_requirements: ~
+    form: ~
+    csrf_protection: ~
+    validation: { enable_annotations: true }
+    #serializer: { enable_annotations: true }
+    default_locale: '%locale%'
+    trusted_hosts: ~
+    session:
+        # https://symfony.com/doc/current/reference/configuration/framework.html#handler-id
+        handler_id: session.handler.native_file
+        save_path: '%kernel.project_dir%/var/sessions/%kernel.environment%'
+    fragments: ~
+    http_method_override: true
+    assets: ~
+    php_errors:
+        log: true
+    templating:
+        engines: ['twig','php']
+ivory_ck_editor:
+    configs:
+        user_config:
+            language: 'en'
+            width:  '100%'   
+            height: '400px'
+            filebrowserBrowseRoute:           "media_index"
+            filebrowserBrowseRouteAbsolute:   true 
+            toolbar: [['Undo','Redo'],[ 'Cut','Copy','Paste'],["Bold","Italic","Underline","TextColor"],['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'],['NumberedList', 'BulletedList',"Checkbox"],["BidiLtr","BidiRtl"]]
+            uiColor: "#ffffff"
+            removePlugins: 'elementspath' 
+        step_config:
+            language: 'en'
+            width:  '100%'   
+            height: '200px'
+            filebrowserBrowseRoute:           "media_index"
+            filebrowserBrowseRouteAbsolute:   true 
+            toolbar: [['Undo','Redo'],[ 'Cut','Copy','Paste'],["Bold","Italic","Underline","TextColor"],['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'],['NumberedList', 'BulletedList',"Checkbox"],["BidiLtr","BidiRtl"]]
+            uiColor: "#ffffff"
+            removePlugins: 'elementspath' 
+# Twig Configuration
+twig:
+    debug: '%kernel.debug%'
+    strict_variables: '%kernel.debug%'
+fos_user:
+    db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
+    firewall_name: main
+    user_class: UserBundle\Entity\User
+    registration:
+        form:
+            type: UserBundle\Form\RegistrationType
+        confirmation:
+            enabled: false
+    from_email:
+        address: "testapp@testapp.com"
+        sender_name: "123456"
+# Doctrine Configuration
+doctrine:
+    dbal:
+        driver: pdo_mysql
+        host: '%database_host%'
+        port: '%database_port%'
+        dbname: '%database_name%'
+        user: '%database_user%'
+        password: '%database_password%'
+        charset: UTF8
+        # if using pdo_sqlite as your database driver:
+        #   1. add the path in parameters.yml
+        #     e.g. database_path: '%kernel.project_dir%/var/data/data.sqlite'
+        #   2. Uncomment database_path in parameters.yml.dist
+        #   3. Uncomment next line:
+        #path: '%database_path%'
+
+    orm:
+        auto_generate_proxy_classes: '%kernel.debug%'
+        naming_strategy: doctrine.orm.naming_strategy.underscore
+        auto_mapping: true
+        dql:
+            string_functions:
+                SHA1: AppBundle\DQL\Sha1
+            numeric_functions:
+                Rand: AppBundle\DQL\Rand
+# Swiftmailer Configuration
+swiftmailer:
+    transport: '%mailer_transport%'
+    host: '%mailer_host%'
+    username: '%mailer_user%'
+    password: '%mailer_password%'
+    spool: { type: memory }
+
+sensio_framework_extra:
+   router:
+        annotations: false
+liip_imagine:
+    resolvers:
+        default:
+            web_path:
+                web_root:  %kernel.root_dir%/../public_html/
+                cache_prefix:  uploads/cache
+    loaders:
+        default:
+            filesystem:
+                data_root:  %kernel.root_dir%/../public_html/
+    filter_sets:
+        cache: ~
+        user_image:
+            quality: 100
+            filters:
+                thumbnail: { size: [300, 300], mode: outbound }
+        user_image_mini:
+            quality: 100
+            filters:
+                thumbnail: { size: [50, 50], mode: outbound }
+        channel_thumb:
+            quality: 100
+            filters:
+                thumbnail: { size: [600, 300], mode: outbound }
+        channel_thumb_web:
+            quality: 100
+            filters:
+                thumbnail: { size: [150, 75], mode: outbound }
+        actor_thumb:
+            quality: 100
+            filters:
+                thumbnail: { size: [500, 500], mode: outbound }
+        actor_thumb_web:
+            quality: 100
+            filters:
+                thumbnail: { size: [400, 500], mode: outbound }
+        actor_thumb_mini_web:
+            quality: 100
+            filters:
+                thumbnail: { size: [100, 100], mode: outbound }
+        poster_thumb_web:
+            quality: 100
+            filters:
+                thumbnail: { size: [170, 255], mode: outbound }
+        poster_thumb:
+            quality: 100
+            filters:
+                thumbnail: { size: [480, 720], mode: outbound }
+        cover_thumb:
+            quality: 100
+            filters:
+                thumbnail: { size: [720,480], mode: outbound }
+        category_thumb:
+            quality: 100
+            filters:
+                thumbnail: { size: [500, 500], mode: outbound }
+        country_thumb:
+            quality: 100
+            filters:
+                thumbnail: { size: [500, 300], mode: outbound }
+        country_thumb_web:
+            quality: 100
+            filters:
+                thumbnail: { size: [100, 100], mode: outbound }
+        episode_thumb:
+            quality: 100
+            filters:
+                thumbnail: { size: [300,200], mode: outbound }
+        status_thumb:
+            quality: 100
+            filters:
+                thumbnail: { size: [500, 500], mode: outbound }
+        status_thumb_api:
+            quality: 100
+            filters:
+                thumbnail: { size: [400, 300], mode: outbound }    
+        slide_thumb:
+            quality: 100
+            filters:
+                thumbnail: { size: [500, 300], mode: outbound }  
+        slide_thumb_web:
+            quality: 100
+            filters:
+                thumbnail: { size: [750, 370], mode: outbound }   
+        category_thumb_api:
+            quality: 100
+            filters:
+                thumbnail: { size: [500, 500], mode: outbound }
+        language_thumb:
+            quality: 100
+            filters:
+                thumbnail: { size: [200, 200], mode: outbound }
+        language_thumb_api:
+            quality: 100
+            filters:
+                thumbnail: { size: [100, 60], mode: outbound }
+hwi_oauth:
+    #this is my custom user provider, created from FOSUBUserProvider - will manage the 
+    #automatic user registration on your site, with data from the provider (facebook. google, etc.)
+    #and also, the connecting part (get the token and the user_id)
+    connect:
+        account_connector: my_user_provider
+    # name of the firewall in which this bundle is active, this setting MUST be set
+    firewall_names: [main]
+    fosub:
+        username_iterations: 30
+        properties:
+            # these properties will be used/redefined later in the custom FOSUBUserProvider service.
+            facebook: facebook_id
+            google: google_id
+    resource_owners:
+        facebook:
+            type:                facebook
+            client_id:           "2704597856444479"
+            client_secret:       "b6c809f93ad07bdec6b21ba91e0bc92a"
+            scope:         "email"
+            infos_url:     "https://graph.facebook.com/me?fields=id,name,email,picture.type(large)"
+            paths:
+                email:          email
+                profilepicture: picture.data.url
+        google:
+            type:                google
+            client_id:           "690266354741-vg742hddgqcp5qumkmc3lvhv0dla6e07.apps.googleusercontent.com"
+            client_secret:       "m3a5C-q86wwReqOgbgd_NjJy"
+            scope:               "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile"

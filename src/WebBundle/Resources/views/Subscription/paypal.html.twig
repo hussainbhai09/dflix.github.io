@@ -1,0 +1,60 @@
+{% extends "WebBundle::login.html.twig" %}
+{% set subtitle =   "Subscription"  %}
+{% set og_description =  "Subscription" %}
+{% set og_type =  "null" %}
+{% set og_image =  "null" %}
+{% set keywords =  "null" %}
+{% block body %}
+
+<div class="tab-title">Subscribe now !</div>
+
+<div id="subscribe-plan">
+	<div class="subscribe-title" id="selected_pack">
+		<span>1</span>
+
+		<h5>{{subscription.pack}}</h5>
+		<span class="fas fa-check float-right"></span>
+		<span class="float-right price-step-1">{{subscription.price}} {{subscription.currency}}</span>
+	</div>
+	<div class="subscribe-title" id="selected_pack">
+		<span>2</span>
+
+		<h5>Payment Method </h5>
+		<span class="fas fa-check float-right"></span>
+		<span class="float-right price-step-1"><i class='fab fa-paypal'></i> PayPal</span>
+	</div>
+	<div class="subscribe-title">
+		<span>3</span>
+		<h5>payment on process  </h5>
+		<span class="float-right"><i class="fas fa-circle-notch fa-spin "></i></span>
+	</div>
+	<center>	
+	<span class="paypal-redirect">
+		<i class='fab fa-paypal'></i>
+		<p> <i class="fas fa-circle-notch fa-spin "></i> Redireting to PayPal ...</p>
+	</span>
+	</center>	    
+	<!-- Buy button -->
+	<form action="{{link}}" method="post" id="paypal-form-pay">
+	    <!-- Identify your business so that you can collect the payments -->
+	    <input type="hidden" name="business" value="{{account}}">
+	    <!-- Specify a subscriptions button. -->
+	    <input type="hidden" name="cmd" value="_xclick-subscriptions">
+	    <!-- Specify details about the subscription that buyers will purchase -->
+	    <input type="hidden" name="item_name" value="{{subscription.pack}}">
+	    <input type="hidden" name="item_number" value="{{id}}">
+	    <input type="hidden" name="currency_code" value="{{subscription.currency}}">
+	    <input type="hidden" name="a3" id="paypalAmt" value="{{subscription.price}}">
+	    <input type="hidden" name="subscription" id="paypalAmt" value="{{subscription.id}}">
+	    <input type="hidden" name="p3" id="paypalValid" value="1">
+	    <input type="hidden" name="t3" value="M">
+
+	    <input type="hidden" name="cancel_return" value="{{ url('wep_subscription_cancel',{"id":subscription.id})}}">
+	    <input type="hidden" name="return" value="{{ url('wep_subscription_paypal_finish',{"id":subscription.id})}}">
+	    <input type="hidden" name="notify_url" value="{{ url('wep_subscription_notify')}}">
+		<input class="buy-btn" style="display:none" type="submit" value="Buy Subscription">
+
+	</form>
+</div>
+
+{% endblock %}

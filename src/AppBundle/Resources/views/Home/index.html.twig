@@ -1,0 +1,259 @@
+{% extends "AppBundle::layout.html.twig" %}
+{% block body%}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-4 col-md-6 col-sm-6">
+            <div class="card card-stats  my-statis-card">
+                <div class="card-header" data-background-color="red">
+                    <i class="material-icons">credit_card</i>
+                </div>
+                <div class="card-content">
+                    <h3 class="title">{{subscription_count}}</h3>
+                    <p class="category">Subscription</p>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-6">
+            <div class="card card-stats my-statis-card">
+                <div class="card-header" data-background-color="blue">
+                    <i class="material-icons">movie</i>
+                </div>
+                <div class="card-content">
+                    <h3 class="title">{{movies_count}}</h3>
+                    <p class="category">Movies</p>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-6">
+            <div class="card card-stats my-statis-card">
+                <div class="card-header" data-background-color="orange">
+                    <i class="material-icons">tv</i>
+                </div>
+                <div class="card-content">
+                     <h3 class="title">{{series_count}}</h3>
+                    <p class="category">TV Shows</p>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-6">
+            <div class="card card-stats  my-statis-card">
+                <div class="card-header" data-background-color="purple">
+                    <i class="material-icons">live_tv</i>
+                </div>
+                <div class="card-content">
+                     <h3 class="title">{{channels_count}}</h3>
+                    <p class="category">TV channels</p>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-6">
+            <div class="card card-stats my-statis-card">
+                <div class="card-header" data-background-color="rose">
+                    <i class="material-icons">view_list</i>
+                </div>
+                <div class="card-content">
+                     <h3 class="title">{{category_count}}</h3>
+                    <p class="category">Categories</p>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-6">
+            <div class="card card-stats  my-statis-card">
+                <div class="card-header" data-background-color="green">
+                    <i class="material-icons">label</i>
+                </div>
+                <div class="card-content">
+                    <h3 class="title">{{genre_count}}</h3>
+                    <p class="category">Genres</p>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-6">
+            <div class="card card-stats  my-statis-card">
+                <div class="card-header" data-background-color="red">
+                    <i class="material-icons">flag</i>
+                </div>
+                <div class="card-content">
+                     <h3 class="title">{{language_count}}</h3>
+                    <p class="category">Languages</p>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-6">
+            <div class="card card-stats  my-statis-card">
+                <div class="card-header" data-background-color="blue">
+                    <i class="material-icons">public</i>
+                </div>
+                <div class="card-content">
+                     <h3 class="title">{{country_count}}</h3>
+                    <p class="category">Countries</p>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-6">
+            <div class="card card-stats  my-statis-card">
+                <div class="card-header" data-background-color="orange">
+                    <i class="material-icons">recent_actors</i>
+                </div>
+                <div class="card-content">
+                     <h3 class="title">{{actor_count}}</h3>
+                    <p class="category">Actors</p>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-6">
+            <div class="card card-stats  my-statis-card">
+                <div class="card-header" data-background-color="purple">
+                    <i class="material-icons">slideshow</i>
+                </div>
+                <div class="card-content">
+                     <h3 class="title">{{slide_count}}</h3>
+                    <p class="category">Slides</p>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-6">
+            <div class="card card-stats  my-statis-card">
+                <div class="card-header" data-background-color="rose">
+                    <i class="material-icons">remove_red_eye</i>
+                </div>
+                <div class="card-content">
+                     <h3 class="title">{{movie_views}}</h3>
+                    <p class="category">Movies Views</p>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-6">
+            <div class="card card-stats  my-statis-card">
+                <div class="card-header" data-background-color="green">
+                    <i class="material-icons">cloud_download</i>
+                </div>
+                <div class="card-content">
+                     <h3 class="title">{{movie_downloads}}</h3>
+                    <p class="category">Movies Downloads</p>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-6">
+            <div class="card card-stats  my-statis-card">
+                <div class="card-header" data-background-color="red">
+                    <i class="material-icons">share</i>
+                </div>
+                <div class="card-content">
+                     <h3 class="title">{{movie_shares}}</h3>
+                    <p class="category">Movies Shares</p>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-6">
+            <div class="card card-stats  my-statis-card">
+                <div class="card-header" data-background-color="blue">
+                    <i class="material-icons">remove_red_eye</i>
+                </div>
+                <div class="card-content">
+                     <h3 class="title">{{serie_views}}</h3>
+                    <p class="category">TV Shows Views</p>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-6">
+            <div class="card card-stats  my-statis-card">
+                <div class="card-header" data-background-color="orange">
+                    <i class="material-icons">cloud_download</i>
+                </div>
+                <div class="card-content">
+                     <h3 class="title">{{serie_downloads}}</h3>
+                    <p class="category">TV Shows Downloads</p>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-6">
+            <div class="card card-stats  my-statis-card">
+                <div class="card-header" data-background-color="purple">
+                    <i class="material-icons">share</i>
+                </div>
+                <div class="card-content">
+                     <h3 class="title">{{serie_shares}}</h3>
+                    <p class="category">TV Shows Shares</p>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-6">
+            <div class="card card-stats  my-statis-card">
+                <div class="card-header" data-background-color="rose">
+                    <i class="material-icons">remove_red_eye</i>
+                </div>
+                <div class="card-content">
+                     <h3 class="title">{{channel_views}}</h3>
+                    <p class="category">Channels Views</p>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-6">
+            <div class="card card-stats  my-statis-card">
+                <div class="card-header" data-background-color="green">
+                    <i class="material-icons">share</i>
+                </div>
+                <div class="card-content">
+                     <h3 class="title">{{channel_shares}}</h3>
+                    <p class="category">Channels Shares</p>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-6">
+            <div class="card card-stats  my-statis-card">
+                <div class="card-header" data-background-color="red">
+                    <i class="material-icons">comment</i>
+                </div>
+                <div class="card-content">
+                     <h3 class="title">{{comment_count}}</h3>
+                    <p class="category">Comments</p>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-6">
+            <div class="card card-stats  my-statis-card">
+                <div class="card-header" data-background-color="blue">
+                    <i class="material-icons">message</i>
+                </div>
+                <div class="card-content">
+                     <h3 class="title">{{support_count}}</h3>
+                    <p class="category">Support and Rating</p>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-6">
+            <div class="card card-stats  my-statis-card">
+                <div class="card-header" data-background-color="orange">
+                    <i class="material-icons">devices_other</i>
+                </div>
+                <div class="card-content">
+                     <h3 class="title">{{devices_count}}</h3>
+                    <p class="category">Installs</p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock%}

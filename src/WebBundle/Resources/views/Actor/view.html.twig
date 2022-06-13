@@ -1,0 +1,47 @@
+{% extends "WebBundle::layout.html.twig" %}
+{% set subtitle =  actor.name %}
+{% set og_description =  actor.bio %}
+{% set og_type =  "profile" %}
+{% set og_image =  asset(actor.media.link)|imagine_filter('actor_thumb') %}
+{% set keywords =  actor.name|replace(" ",',') %}
+{% block title %}{{actor.name}}{% endblock %}
+{% block body %}
+	<div class="row content-section">
+		<div class="col-md-12" >
+			<div class="actor-header-bg" style=" background-image: url('{{asset(actor.media.link)}}');">
+				<div class="movie-header actor-header">
+					<div class="movie-title">{{actor.name}}</div>
+					<div class="movie-infos">{{actor.type}} • {{actor.born}} • {{actor.height}}</div>
+				</div>
+				<img class="actor-logo" src="{{asset(actor.media.link)|imagine_filter('actor_thumb_web')}}">
+			</div>
+		</div>
+		<div class="col-md-12 padding-top-20" >
+			<div class="movie-section-title">Bio</div>
+		</div>
+		<div class="col-md-12" >
+			<p>
+				{{actor.bio}}
+			</p>
+		</div>
+		{% if related_posters|length != 0 %}
+			<div class="col-md-12 padding-top-20" >
+				<div class="movie-section-title">Filmography</div>
+			</div>
+			<div class="flix-carousel" >
+				<button  class="prev_btn"><i class="fa fa-chevron-left"></i></button>
+				<button  class="next_btn"><i class="fa fa-chevron-right"></i></button>
+				<div class="flix-scroll-x">
+					{% for related_poster in related_posters %}
+						{% if related_poster.type == "movie" %}
+							{{ include('WebBundle:Movie:movie.html.twig',{poster:related_poster}) }}
+						{% else %}
+							{{ include('WebBundle:Serie:serie.html.twig',{poster:related_poster}) }}
+						{% endif %}
+					{% endfor %}
+					
+				</div>
+			</div>
+		{% endif %}
+	</div>
+{% endblock %}

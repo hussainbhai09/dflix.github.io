@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+		{{render(controller("WebBundle:Home:header",{"keywords": keywords ,"og_image": og_image ,"og_description" : og_description,"subtitle" : subtitle, "og_type" : og_type}))}}
+		<!-- Bootstrap -->
+		{% block head %}{% endblock %}
+		<meta property="og:url" content="{{ path(app.request.attributes.get('_route'),app.request.attributes.get('_route_params')) }}" />
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+		<link href="{{asset("web/css/style.css")}}" rel="stylesheet">
+		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+		<!--[if lt IE 9]>
+		<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+		<![endif]-->
+		<script src="https://kit.fontawesome.com/017eaf7e3f.js" crossorigin="anonymous"></script>
+	</head>
+	<body alt="{{app.request.schemeAndHttpHost ~ app.request.baseUrl}}" class="{{ (app.session.get('theme') == "light") ? 'light-mode' : 'dark-mode' }}">
+		{% for type, messages in app.session.flashbag.all() %}
+	        {% for message in messages %}
+				<div class="alert  alert-home"   >
+		            <i class="fas fa-bell"></i>
+		            <button type="button" aria-hidden="true" class="close">
+		                <i class="fas fa-times"></i>
+		            </button>
+		            <span data-notify="message">{{message|trans}}</span>
+		        </div>
+	        {% endfor %}
+	    {% endfor %}
+
+		<div class="container-fluid">
+			<div class="row main-row">
+				<div class="sidebar">
+					<h2 class="page-header logo-app">
+						{{render(controller("WebBundle:Home:logo"))}}
+					</h2>
+					<div class="nav-bar-container" >
+						<nav class="navbar bg-light left-navbar"  >
+							<ul class="navbar-nav">
+									{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+										{% if app.user.subscribed %}
+											<p class="btn  btn-subscription"><i class="fas fa-crown"></i> You are premuim<p/>
+										{% else %}
+											<a href="{{path("wep_subscription_subscribe")}}" class="btn  btn-subscription"><i class="fas fa-star"></i> Subscribe now !</a>
+										{% endif %}
+									{% else %}
+											<a href="{{path("wep_subscription_subscribe")}}" class="btn  btn-subscription"><i class="fas fa-star"></i> Subscribe now !</a>
+									{% endif %}
+									<li class="nav-item {% if "web_home_index" in  app.request.attributes.get('_route') %} active {% endif %}"><a  class="nav-link" href="{{path("web_home_index")}}"> <i class="fas fa-home"></i> Home</a></li class="nav-item">
+									<li class="nav-item {% if "wep_movie_index" in  app.request.attributes.get('_route') %} active {% endif %}"><a class="nav-link" href="{{path("wep_movie_index",{genre: "all",order:"newest"})}}"><i class="fas fa-film"></i>  Movies</a></li class="nav-item">
+									<li class="nav-item {% if "wep_serie_index" in  app.request.attributes.get('_route') %} active {% endif %}"><a class="nav-link" href="{{path("wep_serie_index",{genre: "all",order:"newest"})}}"><i class="fas fa-desktop"></i> Tv Shows</a></li class="nav-item">
+									<li class="nav-item {% if "wep_channel_index" in  app.request.attributes.get('_route') %} active {% endif %}"><a class="nav-link" href="{{path("wep_channel_index",{category: "all",country: "all",order:"newest"})}}"><i class="fas fa-bullseye"></i> Tv Channels</a></li class="nav-item">
+									<li class="nav-item {% if "wep_home_mylist" in  app.request.attributes.get('_route') %} active {% endif %}"><a class="nav-link {% if  not is_granted('IS_AUTHENTICATED_FULLY') %} open-login {% endif %}" href="{{path("wep_home_mylist")}}"><i class="fas fa-folder"></i>  My list</a></li>
+								</ul>
+							</nav>
+						</div>
+						<nav class="navbar bg-light left-navbar bottom-navbar">
+							{% if app.session.get('theme') == "light" %}
+								<a  id="lightmode" href="#" style="display:none"><i class="fas fa-sun"></i></a>
+								<a  id="darkmode" href="#" ><i class="fas fa-moon"></i> </a>
+							{% else %}
+								<a  id="lightmode" href="#" ><i class="fas fa-sun"></i></a>
+								<a  id="darkmode" href="#" style="display:none"><i class="fas fa-moon"></i> </a>
+							{% endif %}
+							<ul class="navbar-nav">
+								<li class="nav-item"><a class="nav-link" href="{{path("wep_home_contact")}}"><i class="fas fa-envelope"></i> Contact us</a></li class="nav-item">
+								<li class="nav-item"><a class="nav-link" href="{{path("wep_home_faq")}}"><i class="fas fa-question-circle"></i> FAQ & Support</a></li class="nav-item">
+								<li class="nav-item"><a class="nav-link" href="{{path("wep_home_privacy")}}"><i class="fas fa-lock"></i> Privacy Policy</a></li class="nav-item">
+								<li class="nav-item"><a class="nav-link" href="{{path("wep_home_refund")}}"><i class="fas fa-dollar-sign"></i> Refund Poliy</a></li class="nav-item">
+							</ul>
+						</nav>
+					</div>
+					<div class="close-menu-left-btn"></div>
+					<div class="main">
+							<div class="xs-header" >
+								<button class="btn btn-primary float-left menu-left-btn"><i class="fas fa-bars"></i></button>
+								{{render(controller("WebBundle:Home:logo"))}}
+								{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+									<div class="btn-group  float-right " >
+										<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="for-desktop"> {{ app.user.name }} </span> <img src="{{(app.user.media.type == "link" )? app.user.media.url : asset(app.user.media.link)|imagine_filter("user_image_mini")}}"></button></button>
+										<div class="dropdown-menu dropdown-login">
+											<a class="dropdown-item" href="{{path("fos_user_profile_show")}}"><i class="fas fa-user"></i> My Profile</a>
+											<a class="dropdown-item" href="{{path("fos_user_myprofile_edit")}}"><i class="fas fa-user-edit"></i> Edit Profile</a>
+											<a class="dropdown-item" href="{{path("user_user_subscriptions")}}"><i class="fas fa-star"></i>Subscriptions</a>
+											{% if app.user.type == "email" %}
+											<a class="dropdown-item" href="{{path("fos_user_change_password")}}"><i class="fas fa-user-lock"></i> Change password</a>
+											{%  endif %}
+											<div class="dropdown-divider"></div>
+											<a class="dropdown-item" href="{{path("fos_user_security_logout")}}"><i class="fas fa-sign-out-alt"></i> {{'layout.logout'|trans({}, 'FOSUserBundle')}}</a>
+										</div>
+									</div>
+								{% else %}
+								<button class="btn btn-primary float-right open-login"><i class="fas fas fa-user"></i></button>
+								{% endif %}
+								<button class="btn btn-primary float-right search-btn"><i class="fas fa-search"></i></button>
+							</div>
+						<div class="row top-nav">
+							<div class="col-sm-3 col-md-3 " >
+								<div class="tab-title">{% block title %}{% endblock %}</div>
+							</div>
+							<div class="col-sm-6 col-md-6 search-form" >
+								<form action="{{path("wep_home_search")}}" class="navbar-form" role="search">
+									<div class="search-group">
+										<i class="fas fa-search"></i>
+										<input type="text" class="form-control" placeholder="Movies,Tv Shows , Tv Channels , Actors ..." name="q">
+										<button class="btn btn-default" type="submit">Search</button>
+									</div>
+								</form>
+								<button class="btn btn-primary float-right for-phone search-btn-close"><i class="fas fa-times"></i></button>
+
+							</div>
+							<div class="col-sm-3 col-md-3 account-action for-desktop">
+								{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+									<div class="btn-group  float-right " >
+										<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="for-desktop"> {{ app.user.name }} </span> <img src="{{(app.user.media.type == "link" )? app.user.media.url : asset(app.user.media.link)|imagine_filter("user_image_mini")}}"></button></button>
+										<div class="dropdown-menu dropdown-login">
+											<a class="dropdown-item" href="{{path("fos_user_profile_show")}}"><i class="fas fa-user"></i> My Profile</a>
+											<a class="dropdown-item" href="{{path("fos_user_myprofile_edit")}}"><i class="fas fa-user-edit"></i> Edit Profile</a>
+											<a class="dropdown-item" href="{{path("user_user_subscriptions")}}"><i class="fas fa-star"></i>Subscriptions</a>
+											{% if app.user.type == "email" %}
+											<a class="dropdown-item" href="{{path("fos_user_change_password")}}"><i class="fas fa-user-lock"></i> Change password</a>
+											{%  endif %}
+											<div class="dropdown-divider"></div>
+											<a class="dropdown-item" href="{{path("fos_user_security_logout")}}"><i class="fas fa-sign-out-alt"></i> {{'layout.logout'|trans({}, 'FOSUserBundle')}}</a>
+										</div>
+									</div>
+								{% else %}
+									<div class="float-right">
+										<a  href="{{path("fos_user_registration_register")}}" class="btn btn-link" > {{'registration.submit'|trans}}  </a>
+										<a  href="{{path("fos_user_security_login")}}" class="btn btn-primary open-login" >{{'security.login.submit'|trans}}  </a>
+									</div>
+								{% endif %}
+							</div>
+						</div>
+						<div class="content">
+							{% block body %}{% endblock %}
+						</div>
+					</div>
+				</div>
+			</div>
+			{{render(controller("WebBundle:Home:gplay"))}}
+			
+			{% if not is_granted('IS_AUTHENTICATED_FULLY') %}
+				{{render(controller("FOSUserBundle:Security:box"))}}
+			{% endif %}
+			
+			<!-- Include all compiled plugins (below), or include individual files as needed -->
+			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+			<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+			<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+			
+			<script src="{{asset("web/js/app.js")}}" ></script>
+		</body>
+	</html>

@@ -1,0 +1,4 @@
+<a href="{{path("wep_actor_view",{"id":actor.id,"slug":actor.slug})}}" class="actor" >
+	<img src="{{asset("uploads" ~  "/" ~ actor.extension ~ "/" ~ actor.image)|imagine_filter('actor_thumb_mini_web')}}"/>
+	<span>{{actor.name}}</span>
+</a>

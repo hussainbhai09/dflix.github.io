@@ -1,0 +1,79 @@
+{% extends "AppBundle::layout.html.twig" %}
+{% block body%}
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="row">
+					<div class="col-md-6">
+						<a href="{{path("app_subscription_index")}}" class="btn  btn-lg btn-warning btn-block"><i class="material-icons" style="font-size: 30px;">refresh</i> Refresh</a>
+					</div>
+					<div class="col-md-6">
+						<a class="btn btn btn-lg btn-yellow btn-block"><i class="material-icons" style="font-size: 30px;">label</i> {{subscription_count}} Subscriptions</a>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<form>
+							<select class="search-input" name="status">
+								<option value="all">All</option>
+								<option value="paid">Paid</option>
+								<option value="pendding">Pendding</option>
+								<option value="unpaid">UnPain</option>
+							</select>
+							<button class="btn btn-sm search-btn"><i class="material-icons" style="font-size: 30px;">done</i></button>
+						</form>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<div class="card" style="margin: 15px 0;">
+							<div class="table-responsive">
+								<table class="table table-source" width="100%">
+									<thead class="text-primary">
+										<tr>
+											<th><b>User</b></th>
+											<th><b>Method</b></th>
+											<th><b>Pack</b></th>
+											<th><b>Price</b></th>
+											<th><b>Duration</b></th>
+											<th><b>Started</b></th>
+											<th><b>Expired</b></th>
+											<th><b>Status</b></th>
+											<th><b>Action</b></th>
+										</tr>
+									</thead>
+									<tbody>
+										{% for subscription in subscriptions %}
+											<tr>
+												<td><a href="{{path("user_user_edit",{"id":subscription.id})}}"><b>{{subscription.user.name}}</b></a></td>
+												<td>{{subscription.method}}</td>
+												<td>{{subscription.pack}}</td>
+												<td>{{subscription.price}} {{subscription.currency}}</td>
+												<td>{{subscription.duration}} <small>Day(s)</small></td>
+												<td>{{subscription.started|date("d/m/y H:i")}}</td>
+												<td>{{subscription.expired|date("d/m/y H:i")}}</td>
+												<td><span class="label label-{{(subscription.status == "paid")?"success":"danger"}}">{{subscription.status}}</span></td>
+												<td><a href="{{path("app_subscription_delete",{"id":subscription.id})}}" class="btn btn-rose btn-xs pull-right"><i class="material-icons">delete</i></a><a href="{{path("app_subscription_edit",{"id":subscription.id})}}" class="btn btn-success btn-xs pull-right"><i class="material-icons">edit</i></a></td>
+											</tr>
+										{% else %}
+											<tr>
+												<td colspan="8">
+													<br>
+														<center><img src="{{asset("img/bg_empty.png")}}"  style="width: auto !important;" =""></center>
+													<br>
+												</td>
+											</tr>
+										{% endfor %}
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div class=" pull-right">
+							{{ knp_pagination_render(subscriptions) }}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+	{% endblock %}

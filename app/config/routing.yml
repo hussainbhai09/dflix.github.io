@@ -1,0 +1,41 @@
+web:
+    resource: "@WebBundle/Resources/config/routing.yml"
+    prefix:   /
+user:
+    resource: "@UserBundle/Resources/config/routing.yml"
+    prefix:   /
+app:
+    resource: "@AppBundle/Resources/config/routing.yml"
+media:
+    resource: "@MediaBundle/Resources/config/routing.yml"
+    prefix:   /
+_liip_imagine:
+    resource: "@LiipImagineBundle/Resources/config/routing.xml"
+
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+
+# app/config/routing.yml
+hwi_oauth_redirect:
+    resource: "@HWIOAuthBundle/Resources/config/routing/redirect.xml"
+    prefix:   /connect
+
+hwi_oauth_connect:
+    resource: "@HWIOAuthBundle/Resources/config/routing/connect.xml"
+    prefix:   /connect
+
+hwi_oauth_login:
+    resource: "@HWIOAuthBundle/Resources/config/routing/login.xml"
+    prefix:   /login
+
+facebook_login:
+    path: /login/check-facebook
+
+google_login:
+    path: /login/check-google
+
+custom_login:
+    path: /login/check-custom
+
+github_login:
+    path: /login/check-github

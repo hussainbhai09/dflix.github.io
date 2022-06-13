@@ -1,0 +1,63 @@
+{% extends "AppBundle::layout.html.twig" %}
+{% block body%}
+	<script type="text/javascript">
+	  	var themoviedb_key = "{{setting.themoviedbkey}}";
+  		var language =  "{{setting.themoviedblang}}";
+	</script>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-offset-2 col-md-8">
+				<div class="poster-infos">
+					<div class="card" style="margin: 10px 0;">
+							<div class="row">
+								<div class="col-md-4">
+									<img src="{{asset(poster.poster.link)|imagine_filter('poster_thumb')}}" id="image-poster" width="100%">
+								</div>
+								<div class="col-md-8">
+									<table width="100%" class="table">
+										<tr>
+											<th style="vertical-align: top;">Title</th>
+											<td id="title-poster">{{poster.title}}</td>
+										</tr>
+										<tr>
+											<th style="vertical-align: top;">Release Date</th>
+											<td id="date-poster">{{poster.year}}</td>
+										</tr>
+										<tr>
+											<th style="vertical-align: top;">Rating</th>
+											<td id="rating-poster">{{poster.imdb}}</td>
+										</tr>
+										<tr>
+											<th style="vertical-align: top;">Overview</th>
+											<td id="overview-poster">{{poster.description}}</td>
+										</tr>
+									</table>
+								</div>
+							</div>
+					</div>
+					<div class="card" style="margin: 10px 0;">
+						<div>
+							<span class="import-title" >Movie Details Imported</span>
+							<span class="label label-fill label-success pull-right"  style="margin: 10px;"><i class="material-icons">check</i></span>
+						</div>
+					</div>
+					<div class="card" style="margin: 10px 0;">
+						<div>
+							<span class="import-title" >Movie Keywords Imported</span>
+							<span class="label label-fill label-success pull-right"  style="margin: 10px;"><i class="material-icons">check</i></span>
+						</div>
+					</div>
+					<div class="card" style="margin: 10px 0;">
+						<div>
+							{{ form_start(form) }}
+							{{form_widget(form.id)}}
+							<span class="import-title" >Import Movie Casts</span>
+							<button class="btn btn-fill btn-rose pull-right" id="import_movie" style="margin: 10px;"><i class="material-icons">get_app</i> Import</button>
+							{{ form_end(form) }}	
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock%}

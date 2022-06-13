@@ -1,0 +1,54 @@
+{% extends "WebBundle::layout.html.twig" %}
+{% set subtitle =  "TV Channels" %}
+{% set og_description =  "TV Channels" %}
+{% set og_type =  "null" %}
+{% set og_image =  "null" %}
+{% set keywords =  "null" %}
+{% block title %}Channels {% if app.request.get('country') != "all" %} • {{app.request.get('country')}}{% endif %} {% if app.request.get('category') != "all" %} • {{app.request.get('category')}}{% endif %}{% endblock %}
+{% block body%}
+	<div class="row content-section">
+		<div class="filter-section">
+			<div class="btn-group season-dropdown float-right" role="group" aria-label="Basic example">
+				<a href="{{path("wep_channel_index",{country:app.request.get("country"),category:app.request.get('category'),order:"newest"})}}" class="btn btn-secondary {% if "newest" ==  app.request.get("order") %} active {% endif %}"><i class="far fa-clock"></i> <span class="for-desktop">Newest</span></a>
+				<a href="{{path("wep_channel_index",{country:app.request.get("country"),category:app.request.get('category'),order:"views"})}}" class="btn btn-secondary {% if "views" ==  app.request.get("order") %} active {% endif %}"><i class="far fa-eye"></i> <span class="for-desktop">Views</span></a>
+				<a href="{{path("wep_channel_index",{country:app.request.get("country"),category:app.request.get('category'),order:"rating"})}}" class="btn btn-secondary {% if "rating" ==  app.request.get("order") %} active {% endif %}"><i class="fas fa-star-half-alt"></i> <span class="for-desktop">Rating</span></a>
+				<a href="{{path("wep_channel_index",{country:app.request.get("country"),category:app.request.get('category'),order:"title"})}}" class="btn btn-secondary {% if "title" ==  app.request.get("order") %} active {% endif %}"><i class="fas fa-sort-alpha-down"></i> <span class="for-desktop">Title</span></a>
+			</div>
+			<div class="btn-group season-dropdown" role="group">
+				<button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				{{ (app.request.get('category') == "all")? "All categories": app.request.get('category') }}
+				</button>
+				<div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+					<a class="dropdown-item" href="{{path("wep_channel_index",{country:"all",category:"all",order:"newest"})}}">All categories</a>
+					{% for category in categories %}
+						<a class="dropdown-item" href="{{path("wep_channel_index",{category:category.title,order:app.request.get("order"),country:app.request.get("country")})}}">{{category}}</a>
+					{% endfor %}
+				</div>
+			</div>
+			<div class="btn-group season-dropdown" role="group">
+				<button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				{{ (app.request.get('country') == "all")? "All Countries": app.request.get('country') }}
+				</button>
+				<div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+					<a class="dropdown-item" href="{{path("wep_channel_index",{country:"all",category:"all",order:"newest"})}}">All Countries</a>
+					{% for country in countries %}
+						<a class="dropdown-item" href="{{path("wep_channel_index",{category:app.request.get("category"),order:app.request.get("order"),country:country.title})}}"><img class="country-logo" src="{{asset(country.media.link|imagine_filter('language_thumb_api'))}}">  {{country}}</a>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row content-section">
+		<div></div>
+		{% for channel in channels %}
+			{{ include('WebBundle:Channel:channel.html.twig',{poster:channel,class:"col-4 col-md-2 col-xxl-2"}) }}
+		{% endfor %}
+	</div>
+	<div class="row content-section">
+		<div class="filter-section">
+			<div class=" float-right">
+				{{ knp_pagination_render(channels) }}
+			</div>
+		</div>
+	</div>
+{% endblock%}

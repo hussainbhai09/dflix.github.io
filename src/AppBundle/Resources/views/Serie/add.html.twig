@@ -1,0 +1,165 @@
+{% extends "AppBundle::layout.html.twig" %}
+{% block body%}
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="card card-stats card card-initial" >
+					<div class="card-content views-body  pull-right">
+						<a href="#" class="btn btn-tab-movie"><i class="material-icons">remove_red_eye</i> 0 Views</a>
+						<a href="#" class="btn btn-tab-movie pull-right"><i class="material-icons">share</i> 0 Shares</a>
+						<a href="#" class="btn btn-tab-movie pull-right"><i class="material-icons">cloud_download</i> 0 Downloads</a>
+					</div>
+					<div class="card-header " data-background-color="green">
+						<i class="material-icons">tv</i>
+					</div>
+					<div class="card-content trailer-body">
+						<h4 class="title">New TV Show</b></h4>
+					</div>
+                    <div class="tab-moivie tab-series"><a href="#" class="btn btn-tab-movie-active"><i class="material-icons">add</i> Add</a><a href="#" class="btn btn-tab-movie btn-disabled"><i class="material-icons">recent_actors</i> Cast</a><a href="#" class="btn btn-tab-movie btn-disabled"><i class="material-icons">movie_filter</i> Trailer</a><a href="#" class="btn btn-tab-movie btn-disabled"><i class="material-icons">dynamic_feed</i> SEASONS</a><a href="" class="btn btn-tab-movie btn-disabled"><i class="material-icons">comment</i> Comments</a><a href="#" class="btn btn-tab-movie btn-disabled"><i class="material-icons">star_half</i> Ratings</a>
+                    </div>
+				</div>
+			</div>
+			<div class="col-md-12">
+				<div class="card">
+					<div class="card-header card-header-icon" data-background-color="rose">
+						<i class="material-icons">tv</i>
+					</div>
+					<div class="card-content">
+						<h4 class="card-title">New TV Show </h4>
+						<br>
+						{{form_start(form)}}
+						<div class="col-md-4">
+							<div class="fileinput fileinput-new text-center" style="width:100%"  data-provides="fileinput">
+								<div class="fileinput-new thumbnail" style="width:100%" >
+									<a href="#" class="btn btn-rose btn-round btn-select"><i class="material-icons">image</i> Select Poster image </a>
+									<img  id="img-preview" src="{{asset("img/image_placeholder.jpg")|imagine_filter('poster_thumb')}}"  width="100%">
+								</div>
+								{{form_widget(form.fileposter,{"attr":{"class":"file-hidden input-file img-selector","style":"    display: none;"}})}}
+								<span class="validate-input">{{form_errors(form.fileposter)}}</span>
+							</div>
+						</div>
+						<input type="hidden" name="image_url" id="serie_image" >
+						<div class="col-md-8">
+							<div class="fileinput fileinput-new text-center"  data-provides="fileinput">
+								<div class="fileinput-new thumbnail" >
+									<a href="#" class="btn btn-rose btn-round btn-select-1"><i class="material-icons">image</i> Select Cover image </a>
+									<img  id="img-preview-1" src="{{asset("img/image_placeholder.jpg")|imagine_filter('cover_thumb')}}"  width="100%">
+								</div>
+								{{form_widget(form.filecover,{"attr":{"class":"file-hidden input-file-1 img-selector-1","style":"    display: none;"}})}}
+								<span class="validate-input">{{form_errors(form.filecover)}}</span>
+							</div>
+							<div class="form-group label-floating is-empty" >
+								<label class="control-label">TV Show title</label>
+								<br>
+								{{form_widget(form.title,{"attr":{"class":"form-control search-input"}})}} 
+								<a href="#" id="search_series" class="btn btn-sm search-btn"><i class="material-icons" style="font-size: 30px;">search</i></a>
+								<span class="validate-input">{{form_errors(form.title)}}</span>
+							</div>
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group label-floating is-empty">
+										<label class="control-label">Movie description</label>
+										{{form_widget(form.label,{"attr":{"class":"form-control","rows":8}})}}
+										<span class="validate-input">{{form_errors(form.label)}}</span>
+									</div>
+								</div>
+								
+								<div class="col-md-6">
+									<div class="form-group label-floating is-empty">
+										<label class="control-label">Sub-label</label>
+										{{form_widget(form.sublabel,{"attr":{"class":"form-control","rows":8}})}}
+										<span class="validate-input">{{form_errors(form.sublabel)}}</span>
+									</div>
+								</div>
+							</div>
+							<div id="div1" style="display:none">
+								<div id="result_search">
+
+								</div>
+								<span class="pull-right" style=" margin: 7px; "><a id="close_search" href="#" class="btn btn-fill btn-yellow" style="    margin: 0px;"> Cancel</a>
+							</div>
+							<div class="form-group label-floating is-empty">
+								<label class="control-label">TV Show description</label>
+								{{form_widget(form.description,{"attr":{"class":"form-control","rows":8}})}}
+								<span class="validate-input">{{form_errors(form.description)}}</span>
+							</div>
+							<div class="form-group label-floating is-empty">
+								<label class="control-label">TV Show year</label>
+								{{form_widget(form.year,{"attr":{"class":"form-control"}})}}
+								<span class="validate-input">{{form_errors(form.year)}}</span>
+							</div>
+							<div class="form-group label-floating is-empty">
+								<label class="control-label">TV Show classification</label>
+								{{form_widget(form.classification,{"attr":{"class":"form-control"}})}}
+								<span class="validate-input">{{form_errors(form.classification)}}</span>
+							</div>
+							<div class="form-group label-floating is-empty">
+								<label class="control-label">TV Show IMdb Rating</label>
+								{{form_widget(form.imdb,{"attr":{"class":"form-control"}})}}
+								<span class="validate-input">{{form_errors(form.imdb)}}</span>
+							</div>
+							<div class="form-group label-floating is-empty">
+								<label class="control-label">TV Show duration</label>
+								{{form_widget(form.duration,{"attr":{"class":"form-control"}})}}
+								<span class="validate-input">{{form_errors(form.duration)}}</span>
+							</div>
+							<div class="form-group label-floating ">
+								<label class="control-label">TV Show tags (Ex:anim,art,hero)</label>
+								<br>
+								{{form_widget(form.tags,{"attr":{"class":"input-tags"}})}}
+								<span class="validate-input">{{form_errors(form.tags)}}</span>
+							</div>
+							<div class="">
+								<label>
+									{{form_widget(form.enabled)}}  Enabled
+								</label>
+							</div>
+							<div class="">
+								<label>
+									{{form_widget(form.comment)}}  Enabled Comment
+								</label>
+							</div>
+							<br>
+							{{form_label(form.genres,null,{label_attr:{"style":"font-size:16px"}})}} :
+							<div>
+								<div class="row">
+									{% for field in form.genres %}
+										<label  style="background: #000;border-radius: 20px;padding: 5px;text-align: center;margin: 10px;color: white;font-weight: bold;padding-left: 20px;padding-right: 20px;">
+											{{ form_widget(field) }} <span>{{ field.vars.label }}</span>
+										</label>
+									{% endfor %}
+								</div>
+							</div>
+							<script>
+								$('.input-tags').selectize({
+								persist: false,
+								createOnBlur: true,
+								create: true
+								});
+							</script>
+							<br>
+							<div class="panel-body">
+								<label class="panel-title">Tv Show  Trailer</label>
+
+								<div class="form-group label-floating is-empty"  >
+									<label class="control-label">Trailer Youtube Url</label>
+									{{form_widget(form.trailerurl,{"attr":{"class":"form-control"}})}}
+								</div>
+								<span class="validate-input">{{form_errors(form.trailerurl)}}</span>
+
+
+							</div>
+
+						</div>
+						<div class="col-md-12">
+							<hr>
+							<span class="pull-right"><a href="{{path("app_serie_index")}}" class="btn btn-fill btn-yellow"><i class="material-icons">arrow_back</i> Cancel</a>{{form_widget(form.save,{attr:{"class":"btn btn-fill btn-rose"}})}}</span>
+						</div>
+						{{form_end(form)}}
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock%}

@@ -1,0 +1,26 @@
+{% extends "WebBundle::login.html.twig" %}
+{% set subtitle =   "Resetting password"  %}
+{% set og_description =  "Resetting password" %}
+{% set og_type =  "null" %}
+{% set og_image =  "null" %}
+{% set keywords =  "null" %}
+{% trans_default_domain 'FOSUserBundle' %}
+{% block body %}
+	<div class="login-box">
+		<div class="notif-body">
+			<div class="carda__body pdn--al">
+				<i class="fas fa-shield-alt login-icon"></i>
+				<br>
+				<br>
+				{% trans_default_domain 'FOSUserBundle' %}
+				{% block fos_user_content %}
+					<p>Hi {{app.user.name}} !</p>
+					<p>Your password has been reset successfully</p>
+				{% endblock fos_user_content %}
+				<a href="{{path("web_home_index")}}"><i class="fa fa-fw fa-home"></i> Go Home</a>
+				<br>
+				<br>
+			</div>
+		</div>
+	</div>
+{% endblock %}

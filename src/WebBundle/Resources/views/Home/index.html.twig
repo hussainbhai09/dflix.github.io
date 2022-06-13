@@ -1,0 +1,187 @@
+{% extends "WebBundle::layout.html.twig" %}
+{% set subtitle =  settings.subtitle %}
+{% set og_description =  settings.sitedescription %}
+{% set og_type =  "website" %}
+{% set og_image =  "null" %}
+{% set keywords =  settings.sitekeywords %}
+{% block title %}Home{% endblock %}
+{% block body %}
+	<div class="row content-section">
+		<div class="col-sm-12 col-md-12" >
+			<div id="myCarousel" class="carousel slide w-100" data-ride="carousel">
+				<ol class="carousel-indicators float-right">
+					{% set index = 0 %}
+					{% for slide in slides %}
+						{% if index == 0 %}
+							<li data-target="#myCarousel" data-slide-to="{{index}}" class="active"></li>
+						{% else %}
+							<li data-target="#myCarousel" data-slide-to="{{index}}" ></li>
+						{% endif %}
+						{% set index = index + 1 %}
+					{% endfor %}
+				</ol>
+				<div class="carousel-inner w-100" role="listbox">
+					{% set fist = true %}
+					{% for slide in slides %}
+						{% if fist %}
+							<div class="carousel-item active">
+							{% set fist = false %}
+						{% else %}
+							<div class="carousel-item">
+						{% endif %}
+						<div class="col-xxl-5 col-lg-8 col-md-12">
+							<img height="370" width="750" class="img-fluid" src="{{asset(slide.media.link|imagine_filter('slide_thumb_web'))}}">
+							{% if slide.type == 4 %}
+								{% if slide.poster.type == "movie" %}
+									<a href="{{path("wep_movie_view",{id : slide.poster.id, slug : slide.poster.slug})}}" class="carousel-detail">
+								{% elseif slide.poster.type == "serie" %}
+										<a href="{{path("wep_serie_view",{id : slide.poster.id, slug : slide.poster.slug})}}" class="carousel-detail">
+								{% endif %}
+								<div>
+									<h3>{{slide.clear}} <span><i class="fa fa-star"></i> {{slide.poster.imdb}}/10</span></h3>
+									<p>{{ slide.poster.description|length > 180 ? slide.poster.description|slice(0, 180) ~ '...' : slide.poster.description  }}</p>
+									<button ><i class="fa fa-play"></i> <span>Watch Now<span></button>
+									</div>
+								</a>
+							{% elseif slide.type == 3 %}
+								<a href="{{path("wep_channel_view",{id : slide.channel.id, slug : slide.channel.slug})}}"  class="carousel-detail">
+									<div>
+										<h3>{{slide.clear}}</h3>
+										<p>{{slide.channel.description|length > 180 ? slide.channel.description|slice(0, 180) ~ '...' : slide.channel.description}}</p>
+										<button ><i class="fa fa-play"></i> <span>Watch Now<span></button>
+									</div>
+								</a>
+							{% elseif slide.type == 1 %}
+								<a href="{{slide.url}}"  class="carousel-detail">
+									<div>
+										<h3>{{slide.clear}}</h3>
+										<button ><i class="fas fa-globe"></i> <span>Visit Now<span></button>
+									</div>
+								</a>
+							{% elseif slide.type == 5 %}
+								<a href="{{path("wep_poster_filter",{genre : slide.genre.title, order : "newest"})}}"  class="carousel-detail">
+									<div>
+										<h3>{{slide.clear}}</h3>
+										<button ><i class="fas fa-stream"></i> <span>Explore Now<span></button>
+									</div>
+								</a>
+							{% elseif slide.type == 2 %}
+								<a href="{{path("wep_channel_index",{category : slide.category.title,country: "all", order : "newest"})}}"  class="carousel-detail">
+									<div>
+										<h3>{{slide.clear}}</h3>
+										<button ><i class="fas fa-stream"></i> <span>Explore Now<span></button>
+									</div>
+								</a>
+							{% endif %}
+							</div>
+						</div>
+					{% endfor %}
+					</div>
+				</div>
+			</div>
+			{% if settings.homebannertype == "image"%}
+				<div class="col-sm-12 col-md-12 ads-element">
+					<img src="{{settings.homebanner}}">
+				</div>
+			{% elseif settings.homebannertype =="code" %}
+				<div class="col-sm-12 col-md-12">
+					{{settings.homebanner}}
+				</div>
+			{% endif %}
+			<div class="col-sm-12 col-md-12 ">
+				<a href="{{path("wep_channel_index",{country:"all",category: "all",order:"views"})}}" class="title-more">
+					<span>Featured LiveTV</span>
+					<i class="fa fa-th float-right"></i>
+				</a>
+			</div>
+			<div class="flix-carousel" >
+				<button  class="prev_btn"><i class="fa fa-chevron-left"></i></button>
+				<button  class="next_btn"><i class="fa fa-chevron-right"></i></button>
+				<div class="flix-scroll-x">
+					{% for channel in channels %}
+						{{ include('WebBundle:Channel:channel.html.twig',{poster:channel}) }}
+					{% endfor %}
+				</div>
+			</div>
+			<div class="col-sm-12 col-md-12 ">
+				<a href="{{path("wep_actor_index")}}" class="title-more">
+					<span>Popular Actors</span>
+					<i class="fa fa-th float-right"></i>
+				</a>
+			</div>
+			<div class="flix-carousel" >
+				<button  class="prev_btn"><i class="fa fa-chevron-left"></i></button>
+				<button  class="next_btn"><i class="fa fa-chevron-right"></i></button>
+				<div class="flix-scroll-x">
+					{% for actor in actors %}
+						{{ include('WebBundle:Actor:actor.html.twig',{actor:actor}) }}
+					{% endfor %}
+				</div>
+			</div>
+			<div class="col-sm-12 col-md-12 ">
+				<a href="{{path("wep_poster_filter",{genre: "all",order:"rating"})}}" class="title-more">
+					<span>Top Rated</span>
+					<i class="fa fa-th float-right"></i>
+				</a>
+			</div>
+			<div class="flix-carousel" >
+				<button  class="prev_btn"><i class="fa fa-chevron-left"></i></button>
+				<button  class="next_btn"><i class="fa fa-chevron-right"></i></button>
+				<div class="flix-scroll-x">
+					{% for poster in bestrated %}
+						{% if poster.type == "movie" %}
+							{{ include('WebBundle:Movie:movie.html.twig',{poster:poster}) }}
+						{% else %}
+							{{ include('WebBundle:Serie:serie.html.twig',{poster:poster}) }}
+						{% endif %}
+					{% endfor %}
+				</div>
+			</div>
+			<div class="col-sm-12 col-md-12 ">
+				<a href="{{path("wep_poster_filter",{genre: "all",order:"views"})}}" class="title-more">
+					<span>Popular</span>
+					<i class="fa fa-th float-right"></i>
+				</a>
+			</div>
+			<div class="flix-carousel" >
+				<button  class="prev_btn"><i class="fa fa-chevron-left"></i></button>
+				<button  class="next_btn"><i class="fa fa-chevron-right"></i></button>
+				<div class="flix-scroll-x">
+					{% for poster in popular %}
+						{% if poster.type == "movie" %}
+							{{ include('WebBundle:Movie:movie.html.twig',{poster:poster}) }}
+						{% else %}
+							{{ include('WebBundle:Serie:serie.html.twig',{poster:poster}) }}
+						{% endif %}
+					{% endfor %}
+				</div>
+			</div>
+			{% for genre in genres %}
+				<div class="col-sm-12 col-md-12 ">
+					<a href="{{path("wep_poster_filter",{genre: genre.title,order:"newest"})}}" class="title-more">
+						<span>{{genre.title}}</span>
+						<i class="fa fa-th float-right"></i>
+					</a>
+				</div>
+				<div class="flix-carousel" >
+					<button  class="prev_btn"><i class="fa fa-chevron-left"></i></button>
+					<button  class="next_btn"><i class="fa fa-chevron-right"></i></button>
+					<div class="flix-scroll-x">
+					{% set max = 1 %}
+					{% for poster in genre.posters %}
+						{% if poster.enabled == true %}
+							{% if max < 16 %}
+								{% if poster.type == "movie" %}
+									{{ include('WebBundle:Movie:movie.html.twig',{poster:poster}) }}
+								{% else %}
+									{{ include('WebBundle:Serie:serie.html.twig',{poster:poster}) }}
+								{% endif %}
+								{% set max = max+1 %}
+							{% endif %}
+						{% endif %}
+					{% endfor %}
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+	{% endblock%}

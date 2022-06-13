@@ -1,0 +1,67 @@
+{% extends "WebBundle::login.html.twig" %}
+{% set subtitle =   "Login"  %}
+{% set og_description =  "Login" %}
+{% set og_type =  "null" %}
+{% set og_image =  "null" %}
+{% set keywords =  "null" %}
+{% block body %}
+    <div class="login-box">
+        <div class="notif-head">
+            <span class="notif-title"><i class="fa fa-fw fa-lock"></i>  Sign in to your account </span>
+        </div>
+        <div class="notif-body">
+            <div class="carda__body pdn--al">
+                <div class="row ">
+                    <div class="col-sm-6 col-xs-6 mrg--bs">
+                        <a href="{{ path('hwi_oauth_service_redirect', {'service': 'facebook' }) }}" class="btn  btn-facebook btn-block">
+                            <i class="fab fa-facebook-f"></i> Facebook
+                        </a>
+                    </div>
+                    <div class="col-sm-6 col-xs-6 mrg--bs">
+                        <a href="{{ path('hwi_oauth_service_redirect', {'service': 'google' }) }}" class="btn  btn-google btn-block">
+                            <i class="fab fa-google"></i> Google
+                        </a>
+                    </div>
+                    <h4 class="dividr mrg--vh">
+                    <b class="dividr__content"><i class="dividr__label">OR</i></b>
+                    </h4>
+                </div>
+                {% if error %}
+                    <div class="card-content" style="padding-right:10px">
+                        <div class="alert alert-danger">
+                            <span>
+                            <b>Erreur ! </b>  incorrect username or password</span>
+                        </div>
+                    </div>
+                {% endif %}
+                <div class="row email-login-section" >
+                    <form method="POST" action="{{ path("fos_user_security_check") }}" >
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+                        <div class="form-group ">
+                            <input class="form-control" type="email" id="username" name="_username" value="{{ last_username }}" placeholder="E-mail" required="required">
+                        </div>
+                        <div class="form-group ">
+                            <input placeholder="Password" class="form-control" type="password" id="password" name="_password" required="required">
+                        </div>
+                        <div class="form-group  row mrg--vh">
+                            <div class="col-sm-12">
+                                <button type="submit" class="btn btn-primary btn-block">
+                                <i class="fas fa-sign-in-alt"></i> {{ 'security.login.submit'|trans }}
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-group checkbox clearfix">
+                            <a href="{{path("fos_user_resetting_request")}}" class="btn btn-link float-right pdn--an-imp">Reset Password</a>
+                            <label class="float-left remember-me">
+                                <input type="checkbox" id="remember_me" name="_remember_me" value="on">
+                            {{ 'security.login.remember_me'|trans }}</label>
+                        </div>
+                        <div>
+                            <p>{{'are_you_new_here'|trans}} <a  href="{{path("fos_user_registration_register")}}">{{'registration.submit'|trans}}</a></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,92 @@
+{% extends "AppBundle::layout.html.twig" %}
+{% block body%}
+	<script type="text/javascript">
+	  	var themoviedb_key = "{{setting.themoviedbkey}}";
+  		var language =  "{{setting.themoviedblang}}";
+	</script>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-offset-2 col-md-8">
+				<div class="card card-initial" style="margin: 10px 0;">
+					<div class="card-header card-header-icon" data-background-color="rose">
+						<i class="material-icons">tv</i>
+					</div>
+					<div class="card-content">
+						<h4 class="card-title">Import Tv Serie</h4>
+						<br>
+						<div class="row">
+							<div class="col-md-2">
+								<a href="{{path("app_serie_index")}}" class="btn btn-sm search-btn" style="margin-top: 36px;height: 36px;"><i class="material-icons" style="font-size: 30px">arrow_back</i></a>
+							</div>
+							<div class="col-md-5">
+								<div class="form-group label-floating is-empty">
+									<label class="control-label">Tv Serie title/Id</label>
+									<input id="input-imdb" type="text" name="title" class="form-control">
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="form-group label-floating is-empty">
+									<label class="control-label">Find By</label>
+									
+									<select id="type-imdb" class="form-control">
+										<option value="title">By Title</option>
+										<option value="imdbid">By IMDb Id</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-md-1">
+								<a href="#" id="search-imdb-tv" class="btn btn-sm search-btn" style="margin-top: 36px;height: 36px;"><i class="material-icons" style="font-size: 30px">search</i></a>
+							</div>
+						</div>
+						<div id="div1" style="display:none">
+							<div id="result_search">
+							</div>
+							<span class="pull-right" style=" margin: 7px; "><a id="close_search" href="#" class="btn btn-fill btn-yellow" style="    margin: 0px;"> Cancel</a>
+						</div>
+					</div>
+				</div>
+				
+				<div class="poster-infos" style="display:none">
+					<div class="card" style="margin: 10px 0;">
+							<div class="row">
+								<div class="col-md-4">
+									<img src="none" id="image-poster" width="100%">
+								</div>
+								<div class="col-md-8">
+									<table width="100%" class="table">
+										<tr>
+											<th style="vertical-align: top;">Title</th>
+											<td id="title-poster"></td>
+										</tr>
+										<tr>
+											<th style="vertical-align: top;">Release Date</th>
+											<td id="date-poster"></td>
+										</tr>
+										<tr>
+											<th style="vertical-align: top;">Rating</th>
+											<td id="rating-poster"></td>
+										</tr>
+										<tr>
+											<th style="vertical-align: top;">Overview</th>
+											<td id="overview-poster"></td>
+										</tr>
+									</table>
+								</div>
+							</div>
+
+
+					</div>
+					<div class="card" style="margin: 10px 0;">
+						<div>
+							{{ form_start(form) }}
+							{{form_widget(form.id)}}
+							<span class="import-title" >Import TV Serie Details</span>
+							<button class="btn btn-fill btn-rose pull-right" id="import_movie" style="margin: 10px;"><i class="material-icons">get_app</i> Import</button>
+							{{ form_end(form) }}	
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock%}

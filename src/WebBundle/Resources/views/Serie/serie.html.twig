@@ -1,0 +1,8 @@
+<a href="{{path("wep_serie_view",{id : poster.id, slug : poster.slug})}}" title="{{poster.title}}"  class="poster {{(class is defined)? class : ""}}" >
+	<div>
+		<img width="170" height="255" src="{{asset(poster.poster.link)|imagine_filter('poster_thumb_web')}}" />
+		<div>
+			{% if poster.label != "" %}<span>{{poster.label}}</span>{% endif %}{% if poster.sublabel != "" %}<p {% if poster.label != "" %} class="two" {% endif %}>{{poster.sublabel}}</p>{% endif %}
+		</div>
+	</div>
+</a>

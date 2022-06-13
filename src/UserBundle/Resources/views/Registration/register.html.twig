@@ -1,0 +1,69 @@
+{% extends "WebBundle::login.html.twig" %}
+{% set subtitle =   "Registration"  %}
+{% set og_description =  "Registration" %}
+{% set og_type =  "null" %}
+{% set og_image =  "null" %}
+{% set keywords =  "null" %}
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block body %}
+            <div class="login-box">
+                <div class="notif-head">
+                    <span class="notif-title"><i class="fa fa-fw fa-user-plus"></i>  Create your account now </span>
+                </div>
+                <div class="notif-body">
+                    <div class="carda__body pdn--al">
+                        <div class="row">
+                            <div class="col-sm-6 col-xs-6 mrg--bs">
+                                <a href="{{ path('hwi_oauth_service_redirect', {'service': 'facebook' }) }}" class="btn  btn-facebook btn-block">
+                                    <i class="fab fa-facebook-f"></i> Facebook
+                                </a>
+                            </div>
+                            <div class="col-sm-6 col-xs-6 mrg--bs">
+                                <a href="{{ path('hwi_oauth_service_redirect', {'service': 'google' }) }}" class="btn  btn-google btn-block">
+                                    <i class="fab fa-google"></i> Google
+                                </a>
+                            </div>
+                            <h4 class="dividr mrg--vh">
+                            <b class="dividr__content"><i class="dividr__label">OR</i></b>
+                            </h4>
+                            {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register'}}) }}
+                            <div class="form-group">
+                                {{form_widget(form.email,{"attr":{"class":"form-control","placeholder":"E-mail"}})}}
+                                <span class="validate-input">{{form_errors(form.email)}}</span>
+                            </div>
+                            <div class="form-group">
+                                {{form_widget(form.name,{"attr":{"class":"form-control","placeholder":"Full Name"}})}}
+                                <span class="validate-input">{{form_errors(form.name)}}</span>
+                            </div>
+                            <div class="form-group">
+                                {{form_widget(form.plainPassword.first,{"attr":{"class":"form-control","placeholder":"Password"}})}}
+                                <span class="validate-input">{{form_errors(form.plainPassword.first)}}</span>
+                            </div>
+                            <div class="form-group">
+                                {{form_widget(form.plainPassword.second,{"attr":{"class":"form-control","placeholder":"Password confirmation"}})}}
+                                <span class="validate-input">{{form_errors(form.plainPassword.second)}}</span>
+                            </div>
+                            <div class="form-group checkbox clearfix">
+                            <label class="float-left remember-me">
+                                {{form_widget(form.privacypolicy)}} I read and i agree with this <a  href="{{path("app_home_privacypolicy")}}">Privacy Policy</a>
+                            </label>
+                            <span class="validate-input">{{form_errors(form.privacypolicy)}}</span>
+                            </div>
+                            <div class="form-group  row mrg--vh">
+                                <div class="col-sm-12">
+                                    <button type="submit" class="btn btn-primary btn-block">
+                                    <i class="fa fa-fw fa-user-plus"></i> {{ 'registration.submit'|trans }}
+                                    </button>
+                                </div>
+                            </div>
+                            <div>
+                                <p>You have already an account ? <a  href="{{path("fos_user_security_login")}}">{{'security.login.submit'|trans}}</a><br></p>
+                            </div>
+                            {{ form_end(form) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+       {% endblock %}
+       

@@ -1,0 +1,29 @@
+{% extends "WebBundle::login.html.twig" %}
+{% set subtitle =   "Registration"  %}
+{% set og_description =  "Registration" %}
+{% set og_type =  "null" %}
+{% set og_image =  "null" %}
+{% set keywords =  "null" %}
+{% trans_default_domain 'FOSUserBundle' %}
+{% block body %}
+            <div class="login-box">
+                <div class="notif-head">
+                    <span class="notif-title"><i class="fa fa-fw fa-check"></i> Your account has been activated </span>
+                </div>
+                <div class="notif-body">
+                    <div class="carda__body pdn--al">
+						<br>                    	
+						{% trans_default_domain 'FOSUserBundle' %}
+						{% block fos_user_content %}
+						    <p>{{ 'registration.confirmed'|trans({'%username%': user.name}) }}</p>
+						    {% if targetUrl %}
+						    <p><a href="{{ targetUrl }}">{{ 'registration.back'|trans }}</a></p>
+						    {% endif %}
+						{% endblock fos_user_content %}
+						<a href="{{path("web_home_index")}}"><i class="fa fa-fw fa-home"></i> Go Home</a>
+						<br>
+						<br>
+                    </div>
+                </div>
+            </div>
+       {% endblock %}

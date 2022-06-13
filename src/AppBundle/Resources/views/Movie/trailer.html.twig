@@ -1,0 +1,69 @@
+{% extends "AppBundle::layout.html.twig" %}
+{% block body%}
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="card card-stats card-initial" style="margin: 15px 0;">
+					<div class="card-content views-body  pull-right">
+						<a href="#" class="btn btn-tab-movie"><i class="material-icons">remove_red_eye</i> {{movie.viewsnumber}} Views</a>
+						<a href="#" class="btn btn-tab-movie pull-right"><i class="material-icons">share</i> {{movie.sharesnumber}} Shares</a>
+						<a href="#" class="btn btn-tab-movie pull-right"><i class="material-icons">cloud_download</i> {{movie.downloadsnumber}} Downloads</a>
+					</div>
+					<div class="card-header " data-background-color="green">
+						<i class="material-icons">movie_filter</i>
+					</div>
+					<div class="card-content trailer-body">
+						<h4 class="title">Trailer : {{movie.title }} </b></h4>
+					</div>
+                  <div class="tab-moivie">
+                    <a href="{{path("app_movie_edit",{"id":movie.id})}}" class="btn btn-tab-movie"><i class="material-icons">edit</i> Edit</a><a href="{{path("app_movie_sources",{"id":movie.id})}}" class="btn btn-tab-movie"><i class="material-icons">folder</i> Sources</a><a href="{{path("app_movie_cast",{"id":movie.id})}}" class="btn btn-tab-movie"><i class="material-icons">recent_actors</i> Cast</a><a href="{{path("app_movie_trailer",{"id":movie.id})}}" class="btn btn-tab-movie-active"><i class="material-icons">movie_filter</i> Trailer</a><a href="{{path("app_movie_subtitles",{"id":movie.id})}}" class="btn btn-tab-movie"><i class="material-icons">subtitles</i> Subtitles</a><a href="{{path("app_movie_comments",{"id":movie.id})}}" class="btn btn-tab-movie"><i class="material-icons">comment</i> Comments</a><a href="{{path("app_movie_ratings",{"id":movie.id})}}" class="btn btn-tab-movie"><i class="material-icons">star_half</i> Ratings</a>
+                  </div>
+				</div>
+			</div>
+			<div class="col-md-12">
+				{% if movie.trailer != null %}
+					<div class="card card-stats" style="margin: 15px 0;">
+						<div class="card-header " data-background-color="green">
+							<i class="material-icons">movie_filter</i>
+						</div>
+						<div class="card-content trailer-body">
+							<h4 class="title">{{movie.trailer.type|capitalize}}  {% if movie.trailer.type == "file" and movie.trailer.media != null %}({{movie.trailer.media.extension|capitalize}}){% endif %} | <b>Trailer </b>: <b>{{movie.trailer.url}} {% if movie.trailer.type == "file" and movie.trailer.media != null %} {{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset(movie.trailer.media.link) }}{% endif %}</b></h4>
+						</div>
+						<div class="trailer-footer">
+							<a href="{{path("app_source_trailer",{"id":movie.trailer.id})}}" class="btn btn-rose btn-xs pull-right" ><i class="material-icons">edit</i></a>
+							<a href="{{path("app_source_delete",{"id":movie.trailer.id})}}" class="btn btn-rose btn-xs pull-right"><i class="material-icons">delete</i></a>
+						</div>
+					</div>
+				{% else %}
+					<div class="card">
+						<div class="card-header card-header-icon" data-background-color="rose">
+							<i class="material-icons">movie_filter</i>
+						</div>
+						<div class="card-content">
+							<h4 class="card-title">Add {{movie.title}} Trailer</h4>
+							<br>
+							{{form_start(trailer_form)}}
+							<div class="form-group label-floating is-empty">
+								<label class="control-label">Source Type</label>
+								{{form_widget(trailer_form.type,{"attr":{"class":"form-control"}})}}
+								<span class="validate-input">{{form_errors(trailer_form.type)}}</span>
+							</div>
+							<div class="form-group label-floating is-empty">
+								<label class="control-label">Source Url</label>
+								{{form_widget(trailer_form.url,{"attr":{"class":"form-control"}})}}
+								<span class="validate-input">{{form_errors(trailer_form.url)}}</span>
+							</div>
+							<div class="form-group label-floating is-empty" style="display:none">
+								<label class="control-label">Source File</label>
+								{{form_widget(trailer_form.file,{"attr":{"class":"form-control"}})}}
+								<span class="validate-input">{{form_errors(trailer_form.file)}}</span>
+							</div>
+							<span class="pull-right">{{form_widget(trailer_form.save,{attr:{"class":"btn btn-fill btn-rose"}})}}</span>
+							{{form_end(trailer_form)}}
+						</div>
+					</div>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+{% endblock%}

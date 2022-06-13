@@ -1,0 +1,196 @@
+{% extends "WebBundle::layout.html.twig" %}
+{% set subtitle =  channel.title %}
+{% set og_description =  channel.description %}
+{% set og_type =  "video.movie" %}
+{% set og_image =  asset(channel.media.link)|imagine_filter('channel_thumb') %}
+{% set keywords =  channel.tags %}
+{% block title %}{{channel.title}}{% endblock %}
+{% block body%}
+	<div class="row content-section">
+		<div class="col-md-12" >
+			<div class="movie-header-bg" style=" background-image: url('{{asset(channel.media.link)}}');">
+				<div class="movie-header">
+					<div class="movie-title">{{channel.title}}</div>
+					<div class="movie-infos"> {{channel.classification}} {% for category in channel.categories %} • <a href="{{path("wep_channel_index",{category: category.title,country:"all",order:"views"})}}">{{category.title}}</a>{% endfor %}</div>
+					<div class="header-buttons">
+						{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+							<button class="btn-fav-channel" alt="{{channel.id}}" >{% if favorited %}<i class="fa fa-heart"></i>{% else %}<i class="far fa-heart"></i>{% endif %}</button>
+						{% else %}
+							<button  class="open-login"> <i class="far fa-heart"></i></button>
+						{% endif %}
+						<button id="share-btn">
+						<i  class="fa fa-share "></i>SHARE
+						<div class="share-buttons">
+							<a href="mailto:?Subject={{channel.title}}&amp;Body={{channel.description}} {{ app.request.schemeAndHttpHost ~ app.request.baseUrl ~ "/c/share/" ~ channel.id ~ ".html"}}">
+								<i class="fas fa-envelope"></i>
+							</a>
+							<a href="http://www.facebook.com/sharer.php?u={{ app.request.schemeAndHttpHost ~ app.request.baseUrl ~ "/c/share/" ~ channel.id ~ ".html"}}" target="_blank">
+								<i class="fab fa-facebook-f"></i>
+							</a>
+							<a href="http://www.linkedin.com/shareArticle?mini=true&amp;url={{ app.request.schemeAndHttpHost ~ app.request.baseUrl ~ "/c/share/" ~ channel.id ~ ".html"}}" target="_blank">
+								<i class="fab fa-linkedin-in"></i>
+							</a>
+							<a href="https://twitter.com/share?url={{ app.request.schemeAndHttpHost ~ app.request.baseUrl ~ "/c/share/" ~ channel.id ~ ".html"}}&amp;text={{channel.title}}" target="_blank">
+								<i class="fab fa-twitter"></i>
+							</a>
+						</div>
+						</button>
+					</div>
+					<div class="header-ratings">
+						{% for country in channel.countries %}<a href="{{path("wep_channel_index",{category: "all",country: country.title ,order:"views"})}}"> <img class="country-logo" src="{{asset(country.media.link|imagine_filter('language_thumb_api'))}}"> </a> • {% endfor %}
+						{{channel.rating}}/5
+						{% set rate = channel.rating %}
+						{% for i in 1..5 %}
+							{% if rate >= 1 %}
+								<i class="fas fa-star checked"></i>
+							{% endif %}
+							{% if rate >= 0.25 and  rate < 0.75 %}
+								<i class="fas fa-star-half-alt checked"></i>
+							{% endif %}
+							{% if rate >= 0.75 and  rate < 1 %}
+								<i class="fas fa-star checked"></i>
+							{% endif %}
+							{% if rate < 0.25 %}
+								<i class="far fa-star checked"></i>
+							{% endif %}
+							{% set rate  =  rate - 1 %}
+						{% endfor %}
+						
+					</div>
+				</div>
+				<img class="channel-logo" src="{{asset(channel.media.link)}}">
+			</div>
+		</div>
+		<div class="col-md-12" >
+			<div class="dropdown">
+				{% if all_sources|length > 0 %}
+					{% if sources|length > 0 %}
+						<a href="{{path("wep_player_channel",{id:channel.id,slug:channel.slug,source:sources[0].id})}}" class="btn play-btn"><span class="fa fa-play"></span> Play Channel</a>
+					{% else %}
+						<a href="{{path("wep_subscription_subscribe")}}" class="btn play-btn"><i class="fas fa-star"></i> Subscribe to Play!</a>
+					{% endif %}
+				{% endif %}
+				<a href="{{channel.website}}" target="_blank" id="trailer-btn" class="btn play-btn"><i class="fas fa-globe-americas"></i> Visit website</a>
+				<a class="btn play-btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<span class="fa fa-star"></span> Rate Channel
+				</a>
+				<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+					<div class="comment-item  review-write">
+						<div class='alert alert-success success-review' role='alert'>
+							<i class='fas fa-comment-alt'></i> Your Review has been added successfully!
+						</div>
+						<div class='alert alert-danger error-review' role='alert'>
+							<i class='fas fa-comment-alt'></i> Your Review could not be submitted
+						</div>
+						<div class="rate" id="rate-input" alt="{{channel.id}}">
+							<input type="radio" id="star5" name="rate" value="5" />
+							<label for="star5" title="text">5 stars</label>
+							<input type="radio" id="star4" name="rate" value="4" />
+							<label for="star4" title="text">4 stars</label>
+							<input type="radio" id="star3" name="rate" value="3" />
+							<label for="star3" title="text">3 stars</label>
+							<input type="radio" id="star2" name="rate" value="2" />
+							<label for="star2" title="text">2 stars</label>
+							<input type="radio" checked="true" id="star1" name="rate" value="1" />
+							<label for="star1" title="text">1 star</label>
+						</div>
+						<textarea  class="input-review" placeholder="Write you review here"></textarea>
+						{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+							<button alt="{{channel.id}}" type="channel" class="btn btn-primary  submit-review btn-block">Submite Review <i class="fas fa-paper-plane"></i> </button>
+							<button alt="{{channel.id}}" class="btn btn-primary  loading-review btn-block">Review Interting <i class="fas fa-circle-notch fa-spin"></i> </button>
+						{% else %}
+							<button  class="btn btn-primary btn-block open-login"> <i class="fas fa-check"></i> Login to leave a review </button>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+		</div>
+		{% if settings.channelbannertype == "image"%}
+			<div class="col-sm-12 col-md-12 ads-element">
+				<img src="{{settings.homebanner}}">
+			</div>
+		{% elseif settings.channelbannertype =="code" %}
+			<div class="col-sm-12 col-md-12">
+				{{settings.homebanner}}
+			</div>
+		{% endif %}
+		<div class="col-md-12 padding-top-20" >
+			<div class="movie-section-title">Overview</div>
+		</div>
+		<div class="col-md-12" >
+			<p>
+				{{channel.description}}
+			</p>
+		</div>
+		{% if related_channels|length != 0 %}
+			<div class="col-md-12 padding-top-20" >
+				<div class="movie-section-title">For You</div>
+			</div>
+			<div class="flix-carousel" >
+				<button  class="prev_btn"><i class="fa fa-chevron-left"></i></button>
+				<button  class="next_btn"><i class="fa fa-chevron-right"></i></button>
+				<div class="flix-scroll-x">
+					{% for channel in related_channels %}
+						<a class="channel" href="{{path("wep_channel_view",{id:channel.id,slug:channel.slug})}}" >
+							<img src="{{asset(channel.media.link|imagine_filter('channel_thumb'))}}"/>
+						</a>
+					{% endfor %}
+				</div>
+			</div>
+		{% endif %}
+		{% if channel.comment %}
+			<div class="col-md-6 padding-top-20">
+				<div class="movie-section-title"><i class="fa fa-comment"></i> {{comments|length}} Comments</div>
+				<div class="comment-section comment-list">
+					{% for comment in comments %}
+						<div class="comment-item">
+							<a title="View profile" href="#" class="avatar-thumb"><img  src="{{(comment.user.media.type == "link")? comment.user.media.url : asset(comment.user.media.link)|imagine_filter('actor_thumb_mini_web')}}"></a>
+							<div class="comment-text">
+								<a>{{comment.user.name}}</a><span class="float-right"><i class="fa fa-clock-o"></i> {{comment.created|ago}} </span>
+								<p> {{(comment.contentclear)}}</p>
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+				<div class='alert alert-success success-comment' role='alert'>
+					<i class='fas fa-comment-alt'></i> Your comment has been added successfully!
+				</div>
+				<div class='alert alert-danger error-comment' role='alert'>
+					<i class='fas fa-comment-alt'></i> Your comment could not be submitted
+				</div>
+				{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+					<div class="comment-item comment-write">
+						<a title="View profile" href="#" class="avatar-thumb"><img  src="{{(app.user.media.type == "link" )? app.user.media.url : asset(app.user.media.link)|imagine_filter('actor_thumb_mini_web')}}"></a>
+						<div class="comment-text">
+							<a>{{app.user.name}}</a>
+							<textarea  class="input-comment" alt="channel" placeholder="Write you comment here"></textarea>
+							<button alt="{{channel.id}}" class="btn btn-primary float-right submit-comment">Submite Comment <i class="fas fa-paper-plane"></i> </button>
+							<button alt="{{channel.id}}" class="btn btn-primary float-right loading-comment">Comment Interting <i class="fas fa-circle-notch fa-spin"></i> </button>
+						</div>
+					</div>
+				{% else %}
+					<button class="btn comment-btn-item open-login">
+					<i class="fa fa-check"></i> Login to leave a comment
+					</button>
+				{% endif %}
+			</div>
+		{% endif %}
+		<div class="col-md-6 padding-top-20">
+			<div class="movie-section-title"><i class="fa fa-star"></i> {{channel.ratings|length}} Reviews</div>
+			<div class="comment-section ">
+				{% for rating in channel.ratings %}
+					<div class="review">
+						<div class="review-properties">
+							Reviewed by
+							<span class="review-author">{{rating.user.name}}</span>
+							<span class="fa fa-star checked"></span>
+							<span class="review-rating">{{rating.value}} / 5</span>
+							<span class="float-right"><i class="fa fa-clock-o"></i> {{rating.created|ago}} </span>
+						</div>
+						<article><p>{{rating.review}}</p></article>
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+{% endblock%}

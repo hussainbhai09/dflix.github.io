@@ -1,0 +1,33 @@
+{% extends "WebBundle::login.html.twig" %}
+{% set subtitle =   "Resetting password"  %}
+{% set og_description =  "Resetting password" %}
+{% set og_type =  "null" %}
+{% set og_image =  "null" %}
+{% set keywords =  "null" %}
+{% trans_default_domain 'FOSUserBundle' %}
+{% block body %}
+				<div class="login-box">
+					<div class="notif-body">
+						<div class="carda__body pdn--al">
+							<i class="fas fa-shield-alt login-icon"></i>
+							<p> Well, that's no fun.Fill out your email address, and we’ll send you instructions to reset your password.</p>
+							<form action="{{ path('fos_user_resetting_send_email') }}" method="POST" class="fos_user_resetting_request">
+								<div >
+									{% if invalid_username is defined %}
+										<p class="alert alert-danger">{{ 'resetting.request.invalid_username'|trans({'%username%': invalid_username}, 'FOSUserBundle') }}</p>
+									{% endif %}
+									<div class="form-group label-floating is-empty">
+										<input type="text" id="username" placeholder="{{ 'resetting.request.username'|trans({}, 'FOSUserBundle') }}" name="username" class="form-control" required="required" />
+										<span class="error-form">
+										</span>
+									</div>
+								</div>
+								<div>
+									<input class="btn btn-primary btn-raised col-md-12" type="submit" value="{{ 'resetting.request.submit'|trans({}, 'FOSUserBundle') }}" />
+								</div>
+							</form>
+							<br>
+						</div>
+					</div>
+				</div>
+{% endblock %}

@@ -1,0 +1,93 @@
+{% extends "WebBundle::player.html.twig" %}
+{% set subtitle =   "Play " ~ episode.title  %}
+{% set og_description =  "Play " ~ episode.title %}
+{% set og_type =  "null" %}
+{% set og_image =  "null" %}
+{% set keywords =  "null" %}
+{% block body %}
+	{% if source.type == "youtube" %}
+		<div class="flix_app_player">
+			<div class="plyr__video-embed " id="player">
+				<iframe
+				src="https://www.youtube.com/embed/{{source.youtubeid}}?origin=https://plyr.io&amp;iv_load_policy=3&amp;modestbranding=1&amp;playsinline=1&amp;showinfo=0&amp;rel=0&amp;enablejsapi=1"
+				allowfullscreen
+				allowtransparency
+				allow="autoplay"
+				></iframe>
+			</div>
+		</div>
+	{% elseif source.type == "m3u8" %}
+		<div class="flix_app_player" >
+			<video id="my_video_1" class="video-js vjs-fluid vjs-default-skin" controls preload="auto" data-setup='{}'>
+				<source src="{{source.url}}" type="application/x-mpegURL">
+				{% for subtitle in episode.subtitles %}
+					<track kind="subtitles" label="{{subtitle.language.language}}" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset(subtitle.media.link) }}" srclang="{{subtitle.language.language}}" default />
+					{% endfor %}
+				</video>
+			</div>
+		{% elseif source.type == "embed" %}
+			<div class="flix_app_player" >
+				<iframe src="{{source.url}}"></iframe>
+			</div>
+		{% else %}
+			<div class="flix_app_player">
+				<video  id="player" playsinline controls data-poster="/path/to/episode.jpg">
+					<source src="{% if source.type == "file" and source.media != null %} {{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset(source.media.link) }}{% else %}{{source.url}}{% endif %}" type="video/mp4"/>
+					{% for subtitle in episode.subtitles %}
+						<track kind="subtitles" label="{{subtitle.language.language}}" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset(subtitle.media.link) }}" srclang="{{subtitle.language.language}}" default />
+						{% endfor %}
+					</video>
+				</div>
+			{% endif %}
+			<footer>
+				<a href="{{path("wep_serie_view",{id : episode.season.poster.id, slug : episode.season.poster.slug})}}"><i class="fas fa-arrow-left"></i></a>
+				{{render(controller("WebBundle:Home:logo"))}}
+				{% if next_episode != null %}
+					<a href="{{path("wep_player_pre_episode",{id:next_episode.id,slug:next_episode.slug})}}" class="btn btn-secondary float-right next-episode">Next <span class="for-desktop">: {{next_episode.title}} </span><i class="fas fa-forward"></i></a>
+				{% endif %}
+				<div class="btn-group dropup float-right sources-dropdown">
+					<button type="button" class="btn btn-secondary dropdown-toggle season-btn-selected" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					{{source.type }} 
+					</button>
+					<div class="dropdown-menu dropdown-menu-right">
+						{% for current_source in episode.sources %}
+							{% if current_source.premium == 2 %}
+								{% if premium == true %}
+									{% if current_source.external == true %}
+										<a href="{{current_source.url}}" target="_blank" class="dropdown-item source-btn"  alt="{{current_source.id}}" type="button"><i class="fas fa-external-link-alt"></i> {{current_source.title}} {% if current_source.quality != null %}<label class="badge badge-light float-right ">{{current_source.quality}} </label> {% endif %}{% if current_source.size != null %}<label class="badge badge-light float-right ">{{current_source.size}} </label>{% endif %}</a>
+									{% else %}
+										<a href="{{path("wep_player_episode",{id:episode.id,slug:episode.slug,source:current_source.id})}}" class="dropdown-item source-btn"  alt="{{current_source.id}}" type="button">{{current_source.title}} {% if current_source.quality != null %}<label class="badge badge-light float-right ">{{current_source.quality}} </label> {% endif %}{% if current_source.size != null %}<label class="badge badge-light float-right ">{{current_source.size}} </label>{% endif %}</a> 
+									{% endif %}
+								{% else %}
+								   <a href="{{path("wep_subscription_subscribe")}}" class="dropdown-item source-btn"  type="button"><i class="fas fa-star"></i> {{current_source.title}} {% if current_source.quality != null %}<label class="badge badge-light float-right ">{{current_source.quality}} </label> {% endif %}{% if current_source.size != null %}<label class="badge badge-light float-right ">{{current_source.size}} </label>{% endif %}</a>
+								{% endif %}
+							{% else %} 
+									{% if current_source.external == true %}
+										<a href="{{current_source.url}}" target="_blank" class="dropdown-item source-btn"  alt="{{current_source.id}}" type="button"><i class="fas fa-external-link-alt"></i> {{current_source.title}} {% if current_source.quality != null %}<label class="badge badge-light float-right ">{{current_source.quality}} </label> {% endif %}{% if current_source.size != null %}<label class="badge badge-light float-right ">{{current_source.size}} </label>{% endif %}</a>
+									{% else %}
+										<a href="{{path("wep_player_episode",{id:episode.id,slug:episode.slug,source:current_source.id})}}" class="dropdown-item source-btn"  alt="{{current_source.id}}" type="button">{{current_source.title}} {% if current_source.quality != null %}<label class="badge badge-light float-right ">{{current_source.quality}} </label> {% endif %}{% if current_source.size != null %}<label class="badge badge-light float-right ">{{current_source.size}} </label>{% endif %}</a> 
+									{% endif %}
+							{% endif %}
+						{% endfor %}
+					</div>
+				</div>
+			</footer>
+		{% endblock %}
+		{% block script %}
+			{% if source.type == "m3u8" %}
+				<script type="text/javascript">
+					{% if episode.subtitles|length == 0 %}
+						const player = new Plyr('#my_video_1');
+					{% endif %}
+					var player_2 = videojs('my_video_1');
+					player_2.play();
+				</script>
+			{% else %}
+				<script type="text/javascript">
+					const player = new Plyr('#player',{
+						title: 'Example Title',
+						controls:['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'captions', 'settings', 'pip', 'airplay', 'fullscreen']
+					});
+				</script>
+			{% endif %}
+		{% endblock %}

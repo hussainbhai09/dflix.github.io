@@ -1,0 +1,68 @@
+{% extends "AppBundle::layout.html.twig" %}
+{% block body%}
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="row">
+					<div class="col-md-4">
+						<a href="{{path("app_channel_index")}}" class="btn  btn-lg btn-warning btn-block"><i class="material-icons" style="font-size: 30px;">refresh</i> Refresh</a>
+					</div>
+					<div class="col-md-4">
+						<a class="btn btn btn-lg btn-yellow btn-block"><i class="material-icons" style="font-size: 30px;">live_tv</i> {{channels_count}} TV channels</a>
+					</div>
+					<div class="col-md-4">
+						<a href="{{path("app_channel_add")}}" class="btn btn-rose btn-lg pull-right add-button btn-block" title=""><i class="material-icons" style="font-size: 30px;">add_box</i> NEW TV CHANNEL </a>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<form>
+							<input name="q" value="{{app.request.query.get("q")}}" type="text" class="search-input">
+							<button class="btn btn-sm search-btn"><i class="material-icons" style="font-size: 30px;">search</i></button>
+						</form>
+					</div>
+				</div>
+				<div class="row">
+					{% for channel in channels %}
+						<div class="col-md-4">
+							<div class="card">
+								<div class="card-content" style="text-align: center;   padding: 0px;">
+									<img src="{{asset(channel.media.link)|imagine_filter('channel_thumb')}}" class="image-element" style="    position: relative !important;">
+									
+									
+								</div>
+								<div class="card-footer" >
+									<span class="pull-left channel-title">{{channel.title}}</span>
+									<a href="{{path("app_channel_edit",{"id":channel.id})}}" rel="tooltip" data-placement="left" class=" btn btn-success btn-xs btn-round pull-right" data-original-title="Edit">
+										<i class="material-icons">edit</i>
+									</a>
+									<a href="{{path("app_home_notif_channel",{title:channel.title,id:channel.id,image:asset(channel.media.link)|imagine_filter("channel_thumb"),icon:asset(channel.media.link)|imagine_filter("channel_thumb")})}}" rel="tooltip" data-placement="left" class=" btn btn-primary btn-xs btn-round pull-right" data-original-title="Noitifcation">
+										<i class="material-icons">notifications</i>
+									</a>	
+									<a href="{{path("app_channel_delete",{"id":channel.id})}}" rel="tooltip" data-placement="left" class=" btn btn-danger btn-xs btn-round pull-right" data-original-title="Delete">
+										<i class="material-icons">delete</i>
+									</a>
+								</div>
+							</div>
+						</div>
+					{% else %}
+						<div class="col-md-12">
+							<div class="card">
+								<div class="card-content">
+									<br>
+									<br>
+									<center><img src="{{asset("img/bg_empty.png")}}"  style="width: auto !important;" =""></center>
+									<br>
+									<br>
+								</div>
+							</div>
+						</div>
+					{% endfor %}
+					<div class=" pull-right">
+						{{ knp_pagination_render(channels) }}
+					</div>
+				</div>
+			</div>
+		</div>
+		
+	{% endblock%}

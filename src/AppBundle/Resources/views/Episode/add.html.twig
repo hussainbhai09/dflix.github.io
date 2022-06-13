@@ -1,0 +1,102 @@
+{% extends "AppBundle::layout.html.twig" %}
+{% block body%}
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-3">
+				<div class="card">
+					<div class="tab-moivie tab-channel">
+						<a href="#" class="btn btn-tab-movie-active col-md-12"><i class="material-icons">add</i> Add</a>
+						<a href="#" class="btn btn-tab-movie btn-disabled col-md-12"><i class="material-icons">folder</i> Sources</a>
+						<a href="#" class="btn btn-tab-movie btn-disabled col-md-12"><i class="material-icons">subtitles</i> Subtitles</a>
+						<a href="#" class="btn btn-tab-movie btn-disabled col-md-12"><i class="material-icons">remove_red_eye</i> 0 views</a>
+						<a href="#" class="btn btn-tab-movie btn-disabled col-md-12"><i class="material-icons">cloud_download</i> 0 downloads</a>
+						<a href="{{path("app_serie_seasons",{"id":season.poster.id})}}" class="btn btn-tab-movie col-md-12"><i class="material-icons">arrow_back</i> back</a>
+						
+					</div>
+				</div>
+			</div>
+			<div class="col-md-9">
+				<div class="card">
+					<div class="card-header card-header-icon" data-background-color="rose">
+						<i class="material-icons">movie</i>
+					</div>
+					<div class="card-content">
+						<h4 class="card-title">New "{{season.poster.title}}" Episode in "{{season.title}}"</h4>
+						<br>
+						{{form_start(form)}}
+						<div class="fileinput fileinput-new text-center"  data-provides="fileinput">
+							<div class="fileinput-new thumbnail" >
+								<a href="#" class="btn btn-rose btn-round btn-select-1"><i class="material-icons">image</i> Select image </a>
+								<img  id="img-preview-1" src="{{asset("img/image_placeholder.jpg")|imagine_filter('cover_thumb')}}"  width="100%">
+							</div>
+							{{form_widget(form.file,{"attr":{"class":"file-hidden input-file-1 img-selector-1","style":"    display: none;"}})}}
+							<span class="validate-input">{{form_errors(form.file)}}</span>
+						</div>
+						<div class="form-group label-floating is-empty" >
+							<label class="control-label">Episode title</label>
+							<br>
+							<input type="hidden" id="season_id" value="{{season.title}}">
+							<input type="hidden" id="serie_name" value="{{season.poster.title}}">
+							<input type="hidden" name="image_url" id="episode_image" >
+							{{form_widget(form.title,{"attr":{"class":"form-control search-input"}})}} 
+							<a href="#" id="search_episodes" class="btn btn-sm search-btn"><i class="material-icons" style="font-size: 30px;">list</i></a>
+							<span class="validate-input">{{form_errors(form.title)}}</span>
+						</div>
+						<div id="div1" style="display:none">
+							<div id="result_search">
+
+							</div>
+							<span class="pull-right" style=" margin: 7px; "><a id="close_search" href="#" class="btn btn-fill btn-yellow" style="    margin: 0px;"> Cancel</a>
+						</div>
+						<div class="form-group label-floating is-empty">
+							<label class="control-label">Episode description</label>
+							{{form_widget(form.description,{"attr":{"class":"form-control","rows":8}})}}
+							<span class="validate-input">{{form_errors(form.description)}}</span>
+						</div>
+						<div class="form-group label-floating is-empty">
+							<label class="control-label">Episode duration</label>
+							{{form_widget(form.duration,{"attr":{"class":"form-control"}})}}
+							<span class="validate-input">{{form_errors(form.duration)}}</span>
+						</div>
+						<div class="form-group label-floating is-empty">
+							<label class="control-label">Play Episode :  </label>
+							{{form_widget(form.playas,{"attr":{"class":"form-control"}})}}
+							<span class="validate-input">{{form_errors(form.playas)}}</span>
+						</div>
+						<div class="form-group label-floating is-empty">
+							<label class="control-label">Download Episode :  </label>
+							{{form_widget(form.downloadas,{"attr":{"class":"form-control"}})}}
+							<span class="validate-input">{{form_errors(form.downloadas)}}</span>
+						</div>
+						<div class="">
+							<label>
+								{{form_widget(form.enabled)}}  Enabled
+							</label>
+						</div>
+						<div class="panel-body">
+							<label class="panel-title">Episode Source</label>
+							<div class="form-group label-floating is-empty">
+								<label class="control-label">Source Type</label>
+								{{form_widget(form.sourcetype,{"attr":{"class":"form-control"}})}}
+							</div>
+							<span class="validate-input">{{form_errors(form.sourcetype)}}</span>
+							<div class="form-group label-floating is-empty" {% if form.sourcetype.vars.value == 5 %} style="display:none" {% endif %}>
+							<label class="control-label">Source Url</label>
+							{{form_widget(form.sourceurl,{"attr":{"class":"form-control"}})}}
+							
+						</div>
+						<span class="validate-input">{{form_errors(form.sourceurl)}}</span>
+						<div class="form-group label-floating is-empty" {% if form.sourcetype.vars.value != 5 %} style="display:none" {% endif %}>
+						<label class="control-label">Source File</label>
+						{{form_widget(form.sourcefile,{"attr":{"class":"form-control"}})}}
+					</div>
+					<span class="validate-input">{{form_errors(form.sourcefile)}}</span>
+				</div>
+				<span class="pull-right"><a href="{{path("app_serie_seasons",{"id":season.poster.id})}}" class="btn btn-fill btn-yellow"><i class="material-icons">arrow_back</i> Cancel</a>{{form_widget(form.save,{attr:{"class":"btn btn-fill btn-rose"}})}}</span>
+				{{form_end(form)}}
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+{% endblock%}

@@ -1,0 +1,13 @@
+		{% for episode in episodes %}
+			<a href="{{path("wep_player_pre_episode",{id:episode.id,slug:episode.slug})}}" class="episode" >
+				<img src="{{asset((episode.media != null)? episode.media.link:episode.season.poster.poster.link )|imagine_filter('episode_thumb')}}"/>
+				<div class="episode-detail">
+					<span>
+						<h4>{{episode.title}}</h4>
+						<p>{{episode.description}}</p>
+					</span>
+				</div>
+				<button class="btn episode-btn btn-sm episode-subtitles" data-id={{episode.id}} data-title="{{episode.season.poster.title}} - {{episode.season.title}} - {{episode.title}}"  ><span class="fa fa-cc"></span></button>
+				<button class="btn episode-btn btn-sm episode-download" data-id={{episode.id}} data-title="{{episode.season.poster.title}} - {{episode.season.title}} - {{episode.title}}"  ><span class="fa fa-download"></span></button>
+			</a>
+		{% endfor %}

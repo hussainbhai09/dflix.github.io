@@ -1,0 +1,42 @@
+{% extends "AppBundle::layout.html.twig" %}
+{% block body %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="tab-moivie tab-channel">
+                        <a href="{{path("app_home_settings")}}" class="btn btn-tab-movie col-md-12"><i class="material-icons">phonelink_setup</i> Mobile Settings</a>
+                        <a href="{{path("app_home_websettings")}}" class="btn btn-tab-movie col-md-12"><i class="material-icons">web</i> Web Settings</a>
+                        <a href="{{path("app_home_ads")}}" class="btn btn-tab-movie col-md-12"><i class="material-icons">show_chart</i> Ads Settings</a>
+                        <a href="{{path("app_home_webads")}}" class="btn btn-tab-movie col-md-12"><i class="material-icons">show_chart</i>Web Ads Settings</a>
+                        <a href="{{path("app_home_payment")}}" class="btn btn-tab-movie col-md-12"><i class="material-icons">payment</i> Payment Settings</a>
+                        <a href="{{path("app_home_edit_privacypolicy")}}" class="btn btn-tab-movie col-md-12"><i class="material-icons">privacy_tip</i> Privacy Policy</a>
+                        <a href="{{path("app_home_refundpolicy")}}" class="btn btn-tab-movie col-md-12"><i class="material-icons">attach_money</i> Refund Policy</a>
+                        <a href="{{path("app_home_faq")}}" class="btn btn-tab-movie-active col-md-12"><i class="material-icons">live_help</i> FAQ Page</a>
+                        <a href="{{path("admin_change_password")}}" class="btn btn-tab-movie col-md-12"><i class="material-icons">lock</i> Change password</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="card">
+                    <div class="card-header card-header-icon" data-background-color="rose">
+                        <i class="material-icons">live_help</i>
+                    </div>
+                    <div class="card-content">
+                        <h4 class="card-title">FAQ Page</h4>
+                        {{form_start(form)}}
+                        <br>
+                        <div class="form-group label-floating">
+                            <label class="control-label">FAQ Page : </label>
+                            {{form_widget(form.faq,{"attr":{"class":"form-control"}})}}
+                            <span class="validate-input">{{form_errors(form.faq)}}</span>
+                        </div>
+                    </div>
+                    <span class="pull-right"><a href="{{path("app_category_index")}}" class="btn btn-fill btn-yellow"><i class="material-icons">arrow_back</i> Cancel</a>{{form_widget(form.save,{attr:{"class":"btn btn-fill btn-rose"}})}}</span>
+                    {{form_end(form)}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

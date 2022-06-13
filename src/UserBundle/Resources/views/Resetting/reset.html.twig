@@ -1,0 +1,33 @@
+{% extends "WebBundle::login.html.twig" %}
+{% set subtitle =   "Resetting password"  %}
+{% set og_description =  "Resetting password" %}
+{% set og_type =  "null" %}
+{% set og_image =  "null" %}
+{% set keywords =  "null" %}
+{% trans_default_domain 'FOSUserBundle' %}
+{% block body %}
+                <div class="login-box">
+                    <div class="notif-body">
+                        <div class="carda__body pdn--al">
+                            <i class="fas fa-shield-alt login-icon"></i>
+                            <p> Well,Type your new account password, and we'll get you unstuck...</p>
+                            {% trans_default_domain 'FOSUserBundle' %}
+
+                            {{ form_start(form, { 'action': path('fos_user_resetting_reset', {'token': token}), 'attr': { 'class': 'fos_user_resetting_reset' } }) }}
+                                <div class="form-group ">
+                                    {{ form_widget(form.plainPassword.first,{"attr":{"class":"form-control","placeholder":'form.new_password'}}) }}
+                                    <p class="help-block">{{form_errors(form.plainPassword.first)}}</p>
+                                </div>
+                                <div class="form-group ">
+                                    {{ form_widget(form.plainPassword.second,{"attr":{"class":"form-control","placeholder":'form.new_password_confirmation'}}) }}
+                                    <p class="help-block">{{form_errors(form.plainPassword.second)}}</p>
+                                </div>
+                                <div>
+                                    <input type="submit" value="{{ 'resetting.reset.submit'|trans }}" class="btn btn-primary btn-block" />
+                                </div>
+                            {{ form_end(form) }}
+                            <br>
+                        </div>
+                    </div>
+                </div>
+{% endblock %}

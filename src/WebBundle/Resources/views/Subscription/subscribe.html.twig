@@ -1,0 +1,81 @@
+{% extends "WebBundle::login.html.twig" %}
+{% set subtitle =   "Subscription"  %}
+{% set og_description =  "Subscription" %}
+{% set og_type =  "null" %}
+{% set og_image =  "null" %}
+{% set keywords =  "null" %}
+{% block body %}
+{{ form_start(form, {'attr': {'id': 'form_payment_step'}}) }}
+
+<div class="tab-title">Subscribe now !</div>
+<div id="subscribe-plan">
+	<div class="subscribe-title">
+		<span>1</span>
+		<h5>Select a plan that work for you,All Plans offer </h5>
+	</div>
+	<br>
+   	{% for field in form.packs %}
+   	   	{% set pack = null %}
+
+   		{% for p in packs %}
+   		    {% if field.vars.value == p.id %}
+   		    	{% set pack = p %}
+   		    {% endif %}
+   		{% endfor %}
+		<label class="pack" alt="{{field.vars.value}}" >
+			<div>
+				{{ form_widget(field) }}
+				{% if pack.discount != null %}
+					<p>{{pack.discount}}</p>
+				{% endif %}
+				
+				<h5>{{ field.vars.label }}</h5>
+				{% if pack.description != null %}
+					<h4>{{pack.description}}</h4>
+				{% endif %}
+				<span>{{pack.price}} {{currency}}</span>
+			</div>
+		</label>
+    {% endfor %}
+	 <p class="error-plan">• Please select a plan</p>
+	 <span  id="go-payment-method" class="float-right btn btn-primary">CONTINUE <i class="fas fa-chevron-right"></i></span>
+</div>
+<div id="payment-method">
+	<div class="subscribe-title" id="selected_pack">
+		<span>1</span>
+
+		<h5>x </h5>
+		<span class="fas fa-check float-right"></span>
+		<span class="float-right price-step-1">x</span>
+	</div>
+	<div class="subscribe-title">
+		<span>2</span>
+		<h5>Please select your payment method : </h5>
+	</div>
+	<br>
+
+	{% for field in form.method %}
+		{% set icon  = "<i class='fab fa-paypal'></i>" %}
+   		{% if field.vars.value == "paypal" %}
+      		{% set icon  = "<i class='fab fa-paypal'></i>" %}
+   		{% elseif field.vars.value == "card" %}
+      		{% set icon  = "<i class='far fa-credit-card'></i>"  %}
+   		{% elseif field.vars.value == "manual" %}
+   			{% set icon  = "<i class='fas fa-money-check-alt'></i>"  %}
+   		{% endif %}
+		<label class="payment" alt="{{field.vars.value}}">
+			<div>
+				{{icon|raw}}
+				{{ form_widget(field) }}
+				<h4>{{ field.vars.label }}</h4>
+				<i class="fas fa-check"></i>
+			</div>
+		</label>
+
+    {% endfor %}
+	 <p class="error-method">• Please select a payment methode</p>
+	 <span id="go-to-pay" class="float-right btn btn-primary"><i class="fas fa-check"></i> PAY NOW</button>
+</div>
+{{form_end(form)}}
+
+{% endblock %}

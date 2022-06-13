@@ -1,0 +1,24 @@
+{% extends "WebBundle::login.html.twig" %}
+{% set subtitle =   "Resetting password"  %}
+{% set og_description =  "Resetting password" %}
+{% set og_type =  "null" %}
+{% set og_image =  "null" %}
+{% set keywords =  "null" %}
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block body %}
+				<div class="login-box">
+					<div class="notif-body">
+						<div class="carda__body pdn--al">
+							<i class="far fa-check-circle login-icon"></i>
+							{% trans_default_domain 'FOSUserBundle' %}
+							{% block fos_user_content %}
+								<p>
+									{{ 'resetting.check_email'|trans({'%tokenLifetime%': tokenLifetime})|nl2br }}
+								</p>
+							{% endblock %}
+						</div>
+					</div>
+				</div>
+		
+{% endblock %}

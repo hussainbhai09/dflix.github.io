@@ -1,0 +1,53 @@
+{% extends "WebBundle::layout.html.twig" %}
+{% set subtitle =   "My Profile"  %}
+{% set og_description =  "My Profile" %}
+{% set og_type =  "null" %}
+{% set og_image =  "null" %}
+{% set keywords =  "null" %}
+{% block title %}My Profile{% endblock %}
+{% block body %}
+	<div class="row content-section">
+		<div class="col-md-12" >
+			<div class="actor-header-bg" style=" background-image: url('{{(app.user.media.type == "link" )? app.user.media.url : asset(app.user.media.link)}}');">
+				<div class="movie-header actor-header">
+					<div class="movie-title">{{app.user.name}}</div>
+				</div>
+			</div>
+			<img class="actor-logo" src="{{(app.user.media.type == "link" )? app.user.media.url : asset(app.user.media.link)|imagine_filter("user_image")}}">
+		</div>
+		<div class="col-md-3" >
+			<a href="{{path("fos_user_profile_show")}}" class="btn btn-block btn-sm play-btn"><i class="fas fa-user"></i> My Profile</a>
+			<a href="{{path("fos_user_myprofile_edit")}}" class="btn btn-block btn-sm play-btn"><i class="fas fa-user-edit"></i> Edit Profile</a>
+			<a href="{{path("user_user_subscriptions")}}" class="btn btn-block btn-sm play-btn"><i class="fas fa-star"></i> My Subscription</a>
+			{% if app.user.type == "email" %}
+				<a href="{{path("fos_user_change_password")}}" class="btn btn-block btn-sm play-btn"><i class="fas fa-user-lock"></i> Change password</a>
+			{% endif %}
+			<a href="{{path("fos_user_security_logout")}}" class="btn btn-block btn-sm play-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+		</div>
+		<div class="col-md-9">
+			<h3>My Profile</h3>
+			<table>
+				<table class="table">
+					<thead>
+						<tbody>
+							<tr>
+								<th scope="row">Full Name</th>
+								<td>{{app.user.name}}</td>
+							</tr>
+							<tr>
+								<th scope="row">Email </th>
+								<td>{{app.user.email}}</td>
+							</tr>
+							<tr>
+								<th scope="row">Subscription </th>
+								<td>{% if app.user.subscribed == false %} You are not subscribed <a class="btn btn-primary float-right" href="{{path("wep_subscription_subscribe")}}">subscribe now</a> {% else %} <span class="btn-primary" href="#"><i class="fas fa-star"></i> You are premium now</span>  {% endif %}</td>
+							</tr>
+							<tr>
+								<th scope="row">Last Login</th>
+								<td>{{app.user.lastlogin|date("d/m/Y - H:i")}}</td>
+							</tr>
+						</tbody>
+					</table>
+				</table>
+			</div>
+		{% endblock %}
